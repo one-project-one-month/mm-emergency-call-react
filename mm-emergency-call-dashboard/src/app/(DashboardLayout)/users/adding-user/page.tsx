@@ -1,6 +1,5 @@
 "use client";
 
-import { users, UserType } from "@/app/components/UserComponents/UserTable";
 import React, { useState } from "react";
 import {
   Box,
@@ -8,6 +7,7 @@ import {
   Divider,
   FormControl,
   InputAdornment,
+  Link,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -18,6 +18,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import { UserType } from "../page";
 
 const AddingUser = () => {
   const [role, setRole] = useState({});
@@ -223,8 +224,22 @@ const AddingUser = () => {
             ":hover": { bgcolor: "#396efe" },
           }}
         >
-          Add user
+          Update User
         </Button>
+        <Link href={"/users"}>
+          <Button
+            type="button"
+            variant="contained"
+            sx={{
+              ml: 2,
+              bgcolor: "#F3704D",
+              color: "white",
+              ":hover": { bgcolor: "#db5029" },
+            }}
+          >
+            Cancel
+          </Button>
+        </Link>
       </Box>
     </Box>
   );
