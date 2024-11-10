@@ -1,6 +1,5 @@
 "use client";
 
-import { users, UserType } from "@/app/components/UserComponents/UserTable";
 import {
   Box,
   Button,
@@ -18,6 +17,8 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import React from "react";
+import { users, UserType } from "../../page";
+import Link from "next/link";
 
 interface Props {
   params: {
@@ -240,18 +241,20 @@ export default function UpdatingUser({ params }: Props) {
         >
           Update User
         </Button>
-        <Button
-          type="button"
-          variant="contained"
-          sx={{
-            ml: 2,
-            bgcolor: "#F3704D",
-            color: "white",
-            ":hover": { bgcolor: "#db5029" },
-          }}
-        >
-          Cancel
-        </Button>
+        <Link href={"/users"}>
+          <Button
+            type="button"
+            variant="contained"
+            sx={{
+              ml: 2,
+              bgcolor: "#F3704D",
+              color: "white",
+              ":hover": { bgcolor: "#db5029" },
+            }}
+          >
+            Cancel
+          </Button>
+        </Link>
       </Box>
     </Box>
   );
