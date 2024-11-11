@@ -35,7 +35,7 @@ interface UserProps {
   setUsersToShow: React.Dispatch<React.SetStateAction<User[]>>;
 }
 
-type UserRoleTabs = "All" | UserType
+type UserRoleTabs = "All" | UserType;
 
 const ROLE_TABS: { label: UserRoleTabs; value: UserRoleTabs }[] = [
   { label: "All", value: "All" },
@@ -43,12 +43,21 @@ const ROLE_TABS: { label: UserRoleTabs; value: UserRoleTabs }[] = [
   { label: UserType.NORMAL_USER, value: UserType.NORMAL_USER },
 ];
 
-export default function UserTabs({ setUsersByRole, setUsersToShow }: UserProps) {
+export default function UserTabs({
+  setUsersByRole,
+  setUsersToShow,
+}: UserProps) {
   const [userRole, setUserRole] = useState<UserRoleTabs>("All");
 
-  const handleChange = (event: React.SyntheticEvent, newValue: UserRoleTabs) => {
+  const handleChange = (
+    event: React.SyntheticEvent,
+    newValue: UserRoleTabs
+  ) => {
     setUserRole(newValue);
-    const filteredUsers = newValue === "All" ? users : users.filter((user) => user.role === newValue);
+    const filteredUsers =
+      newValue === "All"
+        ? users
+        : users.filter((user) => user.role === newValue);
     setUsersByRole(filteredUsers);
     setUsersToShow(filteredUsers);
   };

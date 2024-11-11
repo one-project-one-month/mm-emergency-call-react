@@ -32,8 +32,8 @@ export default function UpdatingUser({ params }: Props) {
 
   const [role, setRole] = React.useState(userToBeUpdated?.role);
   const roles = [
-    { id: 1, name: UserType.serviceProvider },
-    { id: 2, name: UserType.normalUser },
+    { id: 1, name: UserType.SERVICE_PROVIDER },
+    { id: 2, name: UserType.NORMAL_USER },
   ];
 
   const handleChangeRole = (event: SelectChangeEvent) => {
@@ -126,7 +126,7 @@ export default function UpdatingUser({ params }: Props) {
             }}
           />
           <TextField
-            placeholder={userToBeUpdated.emailAdress}
+            placeholder={userToBeUpdated.emailAddress}
             sx={{
               width: "95%",
               "& .MuiOutlinedInput-root": {
@@ -163,7 +163,7 @@ export default function UpdatingUser({ params }: Props) {
             }}
           />
           <TextField
-            placeholder={userToBeUpdated.adress}
+            placeholder={userToBeUpdated.address}
             sx={{
               width: "95%",
               "& .MuiOutlinedInput-root": {
