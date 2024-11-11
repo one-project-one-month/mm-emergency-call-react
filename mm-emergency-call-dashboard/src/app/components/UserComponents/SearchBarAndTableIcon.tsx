@@ -3,16 +3,10 @@
 import { Box, InputAdornment, TextField } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-import { UserType } from "@/app/(DashboardLayout)/users/page";
+import { User } from "@/app/(DashboardLayout)/users/page";
 
 interface Props {
-  selectedUsers: {
-    id: number;
-    name: string;
-    emailAdress: string;
-    adress: string;
-    role: UserType;
-  }[];
+  selectedUsers: User[];
   handleSearchUser: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 export default function SearchBarAndFilterIcon({

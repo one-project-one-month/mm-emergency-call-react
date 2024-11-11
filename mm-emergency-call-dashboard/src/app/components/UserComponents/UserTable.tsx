@@ -6,83 +6,40 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import EditIcon from "@mui/icons-material/Edit";
-import { Box } from "@mui/material";
-import Link from "next/link";
-import { users, UserType } from "@/app/(DashboardLayout)/users/page";
+import { User } from "@/app/(DashboardLayout)/users/page";
 import Checkbox from "@mui/material/Checkbox";
+import UserTableRow from "./UserTableRow";
 
-interface Props {
-  usersByRole: {
-    id: number;
-    name: string;
-    emailAdress: string;
-    adress: string;
-    role: UserType;
-  }[];
-  usersToShow: {
-    id: number;
-    name: string;
-    emailAdress: string;
-    adress: string;
-    role: UserType;
-  }[];
-  selectedUsers: {
-    id: number;
-    name: string;
-    emailAdress: string;
-    adress: string;
-    role: UserType;
-  }[];
-  setSelectedUsers: React.Dispatch<
-    React.SetStateAction<
-      {
-        id: number;
-        name: string;
-        emailAdress: string;
-        adress: string;
-        role: UserType;
-      }[]
-    >
-  >;
+interface UserTableProps {
+  usersByRole: User[];
+  usersToShow: User[];
+  selectedUsers: User[];
+  setSelectedUsers: React.Dispatch<React.SetStateAction<User[]>>;
 }
-
-export default function UserTable({
+const UserTable: React.FC<UserTableProps> = ({
   usersByRole,
   usersToShow,
   selectedUsers,
   setSelectedUsers,
-}: Props) {
-  const isAllSelected =
-    selectedUsers.length === usersByRole.length ? true : false;
+}: UserTableProps) => {
+  const isAllSelected = React.useMemo(
+    () => selectedUsers.length === usersByRole.length,
+    [selectedUsers, usersByRole]
+  );
 
-  const handleChangSelectedUsers = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (event.target.value === "all") {
-      if (isAllSelected) {
-        const newSelectedUsers: any = [];
-        setSelectedUsers(newSelectedUsers);
-      } else if (!isAllSelected) {
-        const newSelectedUsers = usersByRole;
-        setSelectedUsers(newSelectedUsers);
-      }
-    } else {
-      const clickedUser = users.find(
-        (user) => user.emailAdress === event.target.value
-      );
+  const handleSelectAll = () => {
+    setSelectedUsers(isAllSelected ? [] : usersByRole)
+  }
 
-      if (clickedUser && selectedUsers.includes(clickedUser)) {
-        const newSelectedUsers = selectedUsers.filter(
-          (user) => user.emailAdress !== clickedUser.emailAdress
-        );
-        setSelectedUsers(newSelectedUsers);
-      } else if (clickedUser && !selectedUsers.includes(clickedUser)) {
-        const newSelectedUsers = [...selectedUsers, clickedUser];
-        setSelectedUsers(newSelectedUsers);
-      }
-    }
-  };
+  const handleSelectUser = React.useCallback(
+    (user: User) => {
+      setSelectedUsers((prevSelected) =>
+        prevSelected.includes(user) ? prevSelected.filter((u) => u.id !== user.id) : [...prevSelected, user]
+      )
+    },
+    [setSelectedUsers]
+  )
+
   return (
     <TableContainer
       component={Paper}
@@ -105,8 +62,7 @@ export default function UserTable({
               {" "}
               <Checkbox
                 checked={isAllSelected}
-                value="all"
-                onChange={handleChangSelectedUsers}
+                onChange={handleSelectAll}
               />
             </TableCell>
             <TableCell sx={{ width: "20%" }}>Name</TableCell>
@@ -125,79 +81,18 @@ export default function UserTable({
           </TableRow>
         </TableHead>
         <TableBody>
-          {usersToShow.map((user) => {
-            const isSelectedUser = selectedUsers.includes(user) ? true : false;
-            return (
-              <TableRow
-                key={user.id}
-                sx={{
-                  "&:last-child td, &:last-child th": { border: 0 },
-                  bgcolor: selectedUsers.includes(user) ? "#EBF0FF" : "white",
-                }}
-              >
-                <TableCell>
-                  {/* ဒီမှာ နောက်ပိုင်းကျရင် id ကိုသုံးမယ်။ လောလောဆယ် id မရှိသေးလို့ email ကို သုံးထား။ */}
-                  <Checkbox
-                    checked={isSelectedUser}
-                    value={user.emailAdress}
-                    onChange={handleChangSelectedUsers}
-                  />
-                </TableCell>
-                <TableCell component="th" scope="row">
-                  {user.name}
-                </TableCell>
-                <TableCell align="left">{user.emailAdress}</TableCell>
-                <TableCell align="left">{user.adress}</TableCell>
-                <TableCell align="left">
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Box
-                      sx={{
-                        mr: 1,
-                        width: "10px",
-                        height: "10px",
-                        bgcolor:
-                          user.role === UserType.normalUser
-                            ? "#FA896B"
-                            : "#4570EA",
-                      }}
-                    ></Box>
-                    {user.role}
-                  </Box>
-                </TableCell>
-                <TableCell>
-                  <Box
-                    sx={{
-                      width: "100%", // Make it full width to align it to the right
-                      display: "flex",
-                      justifyContent: "flex-start", // Aligns the icon to the right
-                      alignItems: "center",
-                    }}
-                  >
-                    <Link href={`/users/updating-user/${user.id}`}>
-                      <Box
-                        sx={{
-                          width: "30px",
-                          height: "30px",
-                          cursor: "pointer",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          "&:hover": {
-                            bgcolor: "lightgray",
-                            borderRadius: "100%",
-                          },
-                        }}
-                      >
-                        <EditIcon fontSize="small" />
-                      </Box>
-                    </Link>
-                  </Box>
-                </TableCell>
-              </TableRow>
-            );
-          })}
+           {usersToShow.map((user) => (
+            <UserTableRow 
+              key={user.id}
+              user={user}
+              isSelected={selectedUsers.includes(user)}
+              onSelect={handleSelectUser}
+            />
+           ))}
         </TableBody>
       </Table>
     </TableContainer>
   );
 }
+
+export default React.memo(UserTable);

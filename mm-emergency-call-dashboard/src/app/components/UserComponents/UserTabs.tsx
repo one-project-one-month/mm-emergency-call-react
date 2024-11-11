@@ -1,66 +1,66 @@
-import * as React from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
-import { users, UserType } from "@/app/(DashboardLayout)/users/page";
+import { User, users, UserType } from "@/app/(DashboardLayout)/users/page";
 
-interface Props {
-  setUsersByRole: React.Dispatch<
-    React.SetStateAction<
-      {
-        id: number;
-        name: string;
-        emailAdress: string;
-        adress: string;
-        role: UserType;
-      }[]
-    >
-  >;
-  setUsersToShow: React.Dispatch<
-    React.SetStateAction<
-      {
-        id: number;
-        name: string;
-        emailAdress: string;
-        adress: string;
-        role: UserType;
-      }[]
-    >
-  >;
+// interface Props {
+//   setUsersByRole: React.Dispatch<
+//     React.SetStateAction<
+//       {
+//         id: number;
+//         name: string;
+//         emailAdress: string;
+//         adress: string;
+//         role: UserType;
+//       }[]
+//     >
+//   >;
+//   setUsersToShow: React.Dispatch<
+//     React.SetStateAction<
+//       {
+//         id: number;
+//         name: string;
+//         emailAdress: string;
+//         adress: string;
+//         role: UserType;
+//       }[]
+//     >
+//   >;
+// }
+
+interface UserProps {
+  setUsersByRole: React.Dispatch<React.SetStateAction<User[]>>;
+  setUsersToShow: React.Dispatch<React.SetStateAction<User[]>>;
 }
 
-export default function UserTabs({ setUsersByRole, setUsersToShow }: Props) {
-  const [userRole, SetUserRole] = React.useState("");
+type UserRoleTabs = "All" | UserType
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    SetUserRole(newValue);
-    if (!newValue) {
-      setUsersByRole(users);
-      setUsersToShow(users);
-    } else if (newValue) {
-      const selectedUsers = users.filter((user) => user.role === newValue);
-      setUsersByRole(selectedUsers);
-      setUsersToShow(selectedUsers);
-    }
+const ROLE_TABS: { label: UserRoleTabs; value: UserRoleTabs }[] = [
+  { label: "All", value: "All" },
+  { label: UserType.SERVICE_PROVIDER, value: UserType.SERVICE_PROVIDER },
+  { label: UserType.NORMAL_USER, value: UserType.NORMAL_USER },
+];
+
+export default function UserTabs({ setUsersByRole, setUsersToShow }: UserProps) {
+  const [userRole, setUserRole] = useState<UserRoleTabs>("All");
+
+  const handleChange = (event: React.SyntheticEvent, newValue: UserRoleTabs) => {
+    setUserRole(newValue);
+    const filteredUsers = newValue === "All" ? users : users.filter((user) => user.role === newValue);
+    setUsersByRole(filteredUsers);
+    setUsersToShow(filteredUsers);
   };
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        /*  display: "flex",
-        justifyContent: "center", */
-        mb: 3,
-        typography: "body1",
-      }}
-    >
+    <Box sx={{ width: "100%", mb: 3, typography: "body1" }}>
       <TabContext value={userRole}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="All" value="" />
-            <Tab label="Service Provider" value={UserType.serviceProvider} />
-            <Tab label="Normal User" value={UserType.normalUser} />
+          <TabList onChange={handleChange} aria-label="User role tabs">
+            {ROLE_TABS.map((tab) => (
+              <Tab key={tab.value} label={tab.label} value={tab.value} />
+            ))}
           </TabList>
         </Box>
       </TabContext>

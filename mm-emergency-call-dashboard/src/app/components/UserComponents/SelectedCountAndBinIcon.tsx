@@ -2,17 +2,12 @@
 
 import { Box, Typography } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import { UserType } from "@/app/(DashboardLayout)/users/page";
+import { User } from "@/app/(DashboardLayout)/users/page";
 
 interface Props {
-  selectedUsers: {
-    id: number;
-    name: string;
-    emailAdress: string;
-    adress: string;
-    role: UserType;
-  }[];
+  selectedUsers: User[];
 }
+
 export default function SelectedCountAndBinIcon({ selectedUsers }: Props) {
   return (
     <Box
@@ -25,15 +20,19 @@ export default function SelectedCountAndBinIcon({ selectedUsers }: Props) {
         padding: 2.5,
         mb: 2,
         width: "100%",
-        borderRadius: "7px 7px 0px 0px",
+        borderRadius: "7px 7px 0 0",
         bgcolor: "#EBF0FF",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
       }}
     >
-      <Typography>{selectedUsers.length}selected</Typography>{" "}
-      <DeleteOutlineOutlinedIcon />{" "}
+      <Typography variant="body1">
+        {selectedUsers.length} selected
+      </Typography>
+      {selectedUsers.length > 0 && (
+        <DeleteOutlineOutlinedIcon sx={{ cursor: "pointer" }} />
+      )}
     </Box>
   );
 }
