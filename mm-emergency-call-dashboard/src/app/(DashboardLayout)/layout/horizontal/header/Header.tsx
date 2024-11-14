@@ -9,14 +9,14 @@ import Toolbar from '@mui/material/Toolbar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { styled } from '@mui/material/styles';
 
-import { useSelector, useDispatch } from '@/store/hooks';
-import { toggleMobileSidebar } from '@/store/customizer/CustomizerSlice';
+import { useSelector, useDispatch } from '@/lib/hooks';
+import { toggleMobileSidebar } from '@/lib/customizer/CustomizerSlice';
 import { IconMenu2 } from '@tabler/icons-react';
 import Notifications from '../../vertical/header/Notification';
 import Profile from '../../vertical/header/Profile';
 import Language from '../../vertical/header/Language';
 import Logo from '../../shared/logo/Logo';
-import { AppState } from '@/store/store';
+import { AppState } from '@/lib/store';
 
 const Header = () => {
     const lgDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'));

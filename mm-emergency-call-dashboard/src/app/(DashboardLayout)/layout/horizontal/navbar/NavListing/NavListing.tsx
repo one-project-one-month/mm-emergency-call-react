@@ -4,10 +4,10 @@ import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import { Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useSelector } from '@/store/hooks';
+import { useSelector } from '@/lib/hooks';
 import NavItem from '../NavItem/NavItem';
 import NavCollapse from '../NavCollapse/NavCollapse';
-import { AppState } from '@/store/store';
+import { AppState } from '@/lib/store';
 
 const NavListing = () => {
     const pathname = usePathname();

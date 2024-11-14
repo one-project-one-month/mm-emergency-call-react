@@ -4,19 +4,19 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import SidebarItems from "./SidebarItems";
 import Logo from "../../shared/logo/Logo";
-import { useSelector, useDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {
     hoverSidebar,
     toggleMobileSidebar,
-} from "@/store/customizer/CustomizerSlice";
+} from "@/lib/customizer/CustomizerSlice";
 import Scrollbar from "@/app/components/custom-scroll/Scrollbar";
 import { Profile } from "./SidebarProfile/Profile";
-import { AppState } from "@/store/store";
+import { AppState } from "@/lib/store";
 
 const Sidebar = () => {
     const lgUp = useMediaQuery((theme: any) => theme.breakpoints.down("lg"));
-    const customizer = useSelector((state: AppState) => state.customizer);
-    const dispatch = useDispatch();
+    const customizer = useAppSelector((state: AppState) => state.customizer);
+    const dispatch = useAppDispatch();
     const theme = useTheme();
     const toggleWidth =
         customizer.isCollapse && !customizer.isSidebarHover

@@ -1,19 +1,16 @@
-"use client";
-
+'use client'
 import { Box, Typography } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import { User } from "@/app/(DashboardLayout)/users/page";
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
 
-interface Props {
-  selectedUsers: User[];
-}
-
-export default function SelectedCountAndBinIcon({ selectedUsers }: Props) {
+export default function SelectedCountAndBinIcon() {
+  const selectedUserCount = useSelector((state: RootState) => state.user.selectedUsers)
   return (
     <Box
       sx={{
-        opacity: selectedUsers.length ? 1 : 0,
-        zIndex: selectedUsers.length ? 1 : -1,
+        opacity: selectedUserCount.length ? 1 : 0,
+        zIndex: selectedUserCount.length ? 1 : -1,
         position: "absolute",
         top: 0,
         left: 0,
@@ -28,9 +25,9 @@ export default function SelectedCountAndBinIcon({ selectedUsers }: Props) {
       }}
     >
       <Typography variant="body1">
-        {selectedUsers.length} selected
+        {selectedUserCount.length} selected
       </Typography>
-      {selectedUsers.length > 0 && (
+      {selectedUserCount.length > 0 && (
         <DeleteOutlineOutlinedIcon sx={{ cursor: "pointer" }} />
       )}
     </Box>

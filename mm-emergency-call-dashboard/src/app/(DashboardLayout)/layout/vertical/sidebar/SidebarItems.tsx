@@ -3,22 +3,22 @@ import { usePathname } from "next/navigation";
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useDispatch, useSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import NavItem from './NavItem';
 import NavCollapse from './NavCollapse';
 import NavGroup from './NavGroup/NavGroup';
-import { AppState } from '@/store/store'
-import { toggleMobileSidebar } from '@/store/customizer/CustomizerSlice';
+import { AppState } from '@/lib/store'
+import { toggleMobileSidebar } from '@/lib/customizer/CustomizerSlice';
 
 
 const SidebarItems = () => {
     const pathname = usePathname();
     const pathDirect = pathname;
     const pathWithoutLastPart = pathname.slice(0, pathname.lastIndexOf('/'));
-    const customizer = useSelector((state: AppState) => state.customizer);
+    const customizer = useAppSelector((state: AppState) => state.customizer);
     const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up('lg'));
     const hideMenu: any = lgUp ? customizer.isCollapse && !customizer.isSidebarHover : '';
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     return (
         <Box sx={{ px: 3 }}>
             <List sx={{ pt: 0 }} className="sidebarNav">

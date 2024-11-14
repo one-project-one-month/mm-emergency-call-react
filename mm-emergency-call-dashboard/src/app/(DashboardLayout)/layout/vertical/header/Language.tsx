@@ -1,11 +1,11 @@
 import React from 'react';
 import { Avatar, IconButton, Menu, MenuItem, Typography } from '@mui/material';
-import { useSelector, useDispatch } from '@/store/hooks';
-import { setLanguage } from '@/store/customizer/CustomizerSlice';
+import { useAppSelector, useAppDispatch } from '@/lib/hooks';
+import { setLanguage } from '@/lib/customizer/CustomizerSlice';
 import { Stack } from '@mui/system';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
-import { AppState } from '@/store/store';
+import { AppState } from '@/lib/store';
 
 const Languages = [
     {
@@ -33,9 +33,9 @@ const Languages = [
 
 const Language = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const open = Boolean(anchorEl);
-    const customizer = useSelector((state: AppState) => state.customizer);
+    const customizer = useAppSelector((state: AppState) => state.customizer);
     const currentLang =
         Languages.find((_lang) => _lang.value === customizer.isLanguage) || Languages[1];
     const { i18n } = useTranslation();

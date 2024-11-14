@@ -6,7 +6,7 @@ import RTL from "@/app/(DashboardLayout)/layout/shared/customizer/RTL";
 import { ThemeSettings } from "@/utils/theme/Theme";
 import { useSelector } from 'react-redux';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import { AppState } from "@/store/store";
+import { AppState } from "@/lib/store";
 import "@/utils/i18n";
 import "@/app/api/index";
 

@@ -1,23 +1,20 @@
-"use client";
-
+'use client'
 import { Box, InputAdornment, TextField } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-import { User } from "@/app/(DashboardLayout)/users/page";
-
-interface Props {
-  selectedUsers: User[];
-  handleSearchUser: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-export default function SearchBarAndFilterIcon({
-  handleSearchUser,
-  selectedUsers,
-}: Props) {
+import { useDispatch } from "react-redux";
+import { searchUser } from "@/lib/apps/user/userSlice";
+export default function SearchBarAndFilterIcon() {
+  const dispatch = useDispatch()
+  const handleUserSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchTerm = event.target.value;
+    dispatch(searchUser(searchTerm)); 
+  };
   return (
     <Box
       sx={{
-        opacity: selectedUsers.length ? 0 : 1,
-        zIndex: selectedUsers.length ? -1 : 1,
+        // opacity: selectedUsers.length ? 0 : 1,
+        // zIndex: selectedUsers.length ? -1 : 1,
         mb: 2,
         width: "100%",
         display: "flex",
@@ -38,7 +35,7 @@ export default function SearchBarAndFilterIcon({
             ),
           },
         }}
-        onChange={handleSearchUser}
+        onChange={handleUserSearch}
       />
       <Box>
         <FilterAltOutlinedIcon />

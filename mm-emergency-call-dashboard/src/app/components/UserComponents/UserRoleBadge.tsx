@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box } from "@mui/material";
-import { UserType } from "@/app/(DashboardLayout)/users/page";
+import { UserType } from '@/types/users';
 
 interface UserRoleBadgeProps {
     role: UserType

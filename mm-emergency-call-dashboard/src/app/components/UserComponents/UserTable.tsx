@@ -1,3 +1,4 @@
+'use client'
 import * as React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -6,39 +7,19 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { User } from "@/app/(DashboardLayout)/users/page";
 import Checkbox from "@mui/material/Checkbox";
 import UserTableRow from "./UserTableRow";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
+import { selectAllUser } from "@/lib/apps/user/userSlice";
+const UserTable: React.FC = () => {
+  const users = useSelector((state: RootState) => state.user.users)
+  const isAllSelected = useSelector((state: RootState) => state.user.isAllSelected)
+  const dispatch = useDispatch()
 
-interface UserTableProps {
-  usersByRole: User[];
-  usersToShow: User[];
-  selectedUsers: User[];
-  setSelectedUsers: React.Dispatch<React.SetStateAction<User[]>>;
-}
-const UserTable: React.FC<UserTableProps> = ({
-  usersByRole,
-  usersToShow,
-  selectedUsers,
-  setSelectedUsers,
-}: UserTableProps) => {
-  const isAllSelected = React.useMemo(
-    () => selectedUsers.length === usersByRole.length,
-    [selectedUsers, usersByRole]
-  );
-
-  const handleSelectAll = () => {
-    setSelectedUsers(isAllSelected ? [] : usersByRole)
-  }
-
-  const handleSelectUser = React.useCallback(
-    (user: User) => {
-      setSelectedUsers((prevSelected) =>
-        prevSelected.includes(user) ? prevSelected.filter((u) => u.id !== user.id) : [...prevSelected, user]
-      )
-    },
-    [setSelectedUsers]
-  )
+  const handleSelectAllChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(selectAllUser(event.target.checked));
+  };
 
   return (
     <TableContainer
@@ -60,10 +41,7 @@ const UserTable: React.FC<UserTableProps> = ({
           <TableRow>
             <TableCell sx={{ width: "2%" }}>
               {" "}
-              <Checkbox
-                checked={isAllSelected}
-                onChange={handleSelectAll}
-              />
+              <Checkbox checked={isAllSelected} onChange={handleSelectAllChange} />
             </TableCell>
             <TableCell sx={{ width: "20%" }}>Name</TableCell>
             <TableCell align="left" sx={{ width: "25%" }}>
@@ -81,14 +59,12 @@ const UserTable: React.FC<UserTableProps> = ({
           </TableRow>
         </TableHead>
         <TableBody>
-           {usersToShow.map((user) => (
-            <UserTableRow 
+          {users.map((user) => (
+            <UserTableRow
               key={user.id}
               user={user}
-              isSelected={selectedUsers.includes(user)}
-              onSelect={handleSelectUser}
             />
-           ))}
+          ))}
         </TableBody>
       </Table>
     </TableContainer>

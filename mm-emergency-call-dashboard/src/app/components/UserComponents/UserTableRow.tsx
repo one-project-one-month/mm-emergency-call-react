@@ -2,26 +2,32 @@ import React from 'react'
 import { TableRow, TableCell, Checkbox, Box } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import Link from "next/link";
-import { User} from "@/app/(DashboardLayout)/users/page";
+import { User } from "@/app/(DashboardLayout)/users/page";
 import UserRoleBadge from './UserRoleBadge';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/lib/store';
+import { toggleSelectUser } from '@/lib/apps/user/userSlice';
 interface UserTableRowProps {
     user: User;
-    isSelected: boolean;
-    onSelect: (user: User) => void;
 }
 
-const UserTableRow: React.FC<UserTableRowProps> = ({ user, isSelected, onSelect }) => {
+const UserTableRow: React.FC<UserTableRowProps> = ({ user }) => {
+    const dispatch = useDispatch()
+    const isAllSelected = useSelector((state: RootState) => state.user.isAllSelected)
+    const selectedUsers = useSelector((state: RootState) => state.user.selectedUsers);
+    const isSelected = selectedUsers.some((selectedUser) => selectedUser.id === user.id);
+
+    const handleCheckboxChange = () => {
+        dispatch(toggleSelectUser(user));
+    };
     return (
         <TableRow sx={{
             "&:last-child td, &:last-child th": { border: 0 },
-            bgcolor: isSelected ? "#EBF0FF" : "white",
+            // bgcolor: isSelected ? "#EBF0FF" : "white",
+            bgcolor: "white"
         }}>
             <TableCell>
-                <Checkbox
-                    checked={isSelected}
-                    onChange={() => onSelect(user)}
-                />
+                <Checkbox checked={isAllSelected || isSelected} onChange={handleCheckboxChange} />
             </TableCell>
             <TableCell component="th" scope="row">{user.name}</TableCell>
             <TableCell align="left">{user.emailAddress}</TableCell>

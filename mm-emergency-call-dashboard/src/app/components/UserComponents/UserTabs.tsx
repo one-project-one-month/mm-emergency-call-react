@@ -1,56 +1,27 @@
+'use client'
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
-import { User, users, UserType } from "@/app/(DashboardLayout)/users/page";
+import { useDispatch } from "react-redux";
+import { filterUserByRole } from "@/lib/apps/user/userSlice";
+import { FilterByRole, UserType } from "@/types/users";
 
-// interface Props {
-//   setUsersByRole: React.Dispatch<
-//     React.SetStateAction<
-//       {
-//         id: number;
-//         name: string;
-//         emailAdress: string;
-//         adress: string;
-//         role: UserType;
-//       }[]
-//     >
-//   >;
-//   setUsersToShow: React.Dispatch<
-//     React.SetStateAction<
-//       {
-//         id: number;
-//         name: string;
-//         emailAdress: string;
-//         adress: string;
-//         role: UserType;
-//       }[]
-//     >
-//   >;
-// }
-
-interface UserProps {
-  setUsersByRole: React.Dispatch<React.SetStateAction<User[]>>;
-  setUsersToShow: React.Dispatch<React.SetStateAction<User[]>>;
-}
-
-type UserRoleTabs = "All" | UserType
-
-const ROLE_TABS: { label: UserRoleTabs; value: UserRoleTabs }[] = [
+const ROLE_TABS: { label: FilterByRole; value: FilterByRole }[] = [
   { label: "All", value: "All" },
-  { label: UserType.SERVICE_PROVIDER, value: UserType.SERVICE_PROVIDER },
-  { label: UserType.NORMAL_USER, value: UserType.NORMAL_USER },
+  { label: UserType.NORMAL_USER, value: UserType.NORMAL_USER},
+  { label: UserType.SERVICE_PROVIDER, value: UserType.SERVICE_PROVIDER},
 ];
 
-export default function UserTabs({ setUsersByRole, setUsersToShow }: UserProps) {
-  const [userRole, setUserRole] = useState<UserRoleTabs>("All");
+export default function UserTabs() {
+  const dispatch = useDispatch()
+  const [userRole, setUserRole] = useState<FilterByRole>("All");
 
-  const handleChange = (event: React.SyntheticEvent, newValue: UserRoleTabs) => {
+  const handleChange = (e: React.SyntheticEvent, newValue: FilterByRole) => {
+    e.preventDefault()
     setUserRole(newValue);
-    const filteredUsers = newValue === "All" ? users : users.filter((user) => user.role === newValue);
-    setUsersByRole(filteredUsers);
-    setUsersToShow(filteredUsers);
+    dispatch(filterUserByRole(newValue))
   };
 
   return (
