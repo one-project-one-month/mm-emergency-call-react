@@ -11,9 +11,9 @@ import { Theme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { styled, useTheme } from '@mui/material/styles';
-import { useSelector } from "@/store/hooks";
+import { useSelector } from "@/lib/hooks";
 import { useTranslation } from "react-i18next";
-import { AppState } from "@/store/store";
+import { AppState } from "@/lib/store";
 
 type NavGroup = {
     [x: string]: any;

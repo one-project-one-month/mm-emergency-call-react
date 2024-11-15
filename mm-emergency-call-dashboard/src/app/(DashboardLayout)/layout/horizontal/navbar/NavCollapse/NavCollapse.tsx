@@ -8,14 +8,14 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { styled } from '@mui/material/styles';
-import { useSelector } from '@/store/hooks';
+import { useSelector } from '@/lib/hooks';
 
 // custom imports
 import NavItem from '../NavItem/NavItem';
 
 // plugins
 import { IconChevronDown } from '@tabler/icons-react';
-import { AppState } from '@/store/store';
+import { AppState } from '@/lib/store';
 
 type NavGroupProps = {
     [x: string]: any;

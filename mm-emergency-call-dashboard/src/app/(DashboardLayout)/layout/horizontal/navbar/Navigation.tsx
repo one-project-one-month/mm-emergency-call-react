@@ -5,10 +5,10 @@ import Drawer from '@mui/material/Drawer';
 import useMediaQuery from '@mui/material/useMediaQuery'
 import NavListing from './NavListing/NavListing';
 import Logo from '../../shared/logo/Logo';
-import { useSelector, useDispatch } from '@/store/hooks';
-import { toggleMobileSidebar } from '@/store/customizer/CustomizerSlice';
+import { useSelector, useDispatch } from '@/lib/hooks';
+import { toggleMobileSidebar } from '@/lib/customizer/CustomizerSlice';
 import SidebarItems from '../../vertical/sidebar/SidebarItems';
-import { AppState } from '@/store/store';
+import { AppState } from '@/lib/store';
 
 const Navigation = () => {
     const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'));

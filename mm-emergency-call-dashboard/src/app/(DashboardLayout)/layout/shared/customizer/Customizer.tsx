@@ -9,7 +9,7 @@ import Stack from '@mui/material/Stack'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
-import { useSelector, useDispatch } from "@/store/hooks";
+import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import Box, { BoxProps } from "@mui/material/Box";
 import { IconX, IconSettings, IconCheck } from "@tabler/icons-react";
 import {
@@ -21,8 +21,8 @@ import {
     toggleHorizontal,
     setBorderRadius,
     setCardShadow,
-} from "@/store/customizer/CustomizerSlice";
-import { AppState } from "@/store/store";
+} from "@/lib/customizer/CustomizerSlice";
+import { AppState } from "@/lib/store";
 import Scrollbar from "@/app/components/custom-scroll/Scrollbar";
 import WbSunnyTwoToneIcon from "@mui/icons-material/WbSunnyTwoTone";
 import DarkModeTwoToneIcon from "@mui/icons-material/DarkModeTwoTone";
@@ -46,9 +46,9 @@ interface colors {
 }
 const Customizer: FC = () => {
     const [showDrawer, setShowDrawer] = useState(false);
-    const customizer = useSelector((state: AppState) => state.customizer);
+    const customizer = useAppSelector((state: AppState) => state.customizer);
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const StyledBox = styled(Box)<BoxProps>(({ theme }) => ({
         boxShadow: theme.shadows[8],
