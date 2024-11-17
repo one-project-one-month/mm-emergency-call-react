@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import * as React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,16 +9,21 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import UserTableRow from "./UserTableRow";
-import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import { selectAllUser } from "@/lib/apps/user/userSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 const UserTable: React.FC = () => {
-  const users = useSelector((state: RootState) => state.user.users)
-  const isAllSelected = useSelector((state: RootState) => state.user.isAllSelected)
-  const dispatch = useDispatch()
+  const users = useAppSelector((state: RootState) => state.user.users);
+  const isAllSelected = useAppSelector(
+    (state: RootState) => state.user.isAllSelected
+  );
+  const dispatch = useAppDispatch();
 
-  const handleSelectAllChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(selectAllUser(event.target.checked));
+  const handleSelectAllChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const usersToBeSelected = event.target.checked ? users : [];
+    dispatch(selectAllUser(usersToBeSelected));
   };
 
   return (
@@ -41,7 +46,10 @@ const UserTable: React.FC = () => {
           <TableRow>
             <TableCell sx={{ width: "2%" }}>
               {" "}
-              <Checkbox checked={isAllSelected} onChange={handleSelectAllChange} />
+              <Checkbox
+                checked={isAllSelected}
+                onChange={handleSelectAllChange}
+              />
             </TableCell>
             <TableCell sx={{ width: "20%" }}>Name</TableCell>
             <TableCell align="left" sx={{ width: "25%" }}>
@@ -60,15 +68,12 @@ const UserTable: React.FC = () => {
         </TableHead>
         <TableBody>
           {users.map((user) => (
-            <UserTableRow
-              key={user.id}
-              user={user}
-            />
+            <UserTableRow key={user.id} user={user} />
           ))}
         </TableBody>
       </Table>
     </TableContainer>
   );
-}
+};
 
 export default React.memo(UserTable);

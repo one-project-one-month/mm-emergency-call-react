@@ -18,19 +18,40 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { UserType } from "../page";
+import { User, UserType } from "@/types/users";
+import { nanoid } from "@reduxjs/toolkit";
+import { useAppDispatch } from "@/lib/hooks";
+import { addUser } from "@/lib/apps/user/userSlice";
+import { redirect } from "next/navigation";
 
 const AddingUser = () => {
+  const dispatch = useAppDispatch();
   const [role, setRole] = useState({});
   const roles = [
-    { id: 1, name: UserType.serviceProvider },
-    { id: 2, name: UserType.normalUser },
+    { id: 1, name: UserType.SERVICE_PROVIDER },
+    { id: 2, name: UserType.NORMAL_USER },
   ];
   const handleChangeRole = (event: SelectChangeEvent) => {
     setRole(event.target.value as UserType);
   };
+
+  const handleAddUser = (formData: FormData) => {
+    const id = Math.floor(Math.random() * 100) + 5;
+    const name = formData.get("name") as string;
+    const emailAddress = formData.get("email") as string;
+    const address = formData.get("address") as string;
+    const role = formData.get("role") as UserType;
+
+    const userToBeAdded: User = { id, name, emailAddress, address, role };
+
+    dispatch(addUser(userToBeAdded));
+
+    redirect("/users");
+  };
   return (
     <Box
+      component="form"
+      action={handleAddUser}
       sx={{
         mt: 7,
         width: "100%",
@@ -76,6 +97,8 @@ const AddingUser = () => {
             }}
           />
           <TextField
+            name="name"
+            defaultValue=""
             placeholder={"Enter the name"}
             sx={{
               width: "95%",
@@ -113,6 +136,8 @@ const AddingUser = () => {
             }}
           />
           <TextField
+            name="email"
+            defaultValue=""
             placeholder={"Enter the email"}
             sx={{
               width: "95%",
@@ -150,6 +175,8 @@ const AddingUser = () => {
             }}
           />
           <TextField
+            name="address"
+            defaultValue=""
             placeholder={"Enter the address"}
             sx={{
               width: "95%",
@@ -197,6 +224,7 @@ const AddingUser = () => {
             }}
           >
             <Select
+              name="role"
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               defaultValue={roles[0].name}
@@ -224,7 +252,7 @@ const AddingUser = () => {
             ":hover": { bgcolor: "#396efe" },
           }}
         >
-          Update User
+          Add User
         </Button>
         <Link href={"/users"}>
           <Button

@@ -17,8 +17,11 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import React from "react";
-import { users, UserType } from "../../page";
 import Link from "next/link";
+import { User, UserType } from "@/types/users";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { editUser } from "@/lib/apps/user/userSlice";
+import { redirect } from "next/navigation";
 
 interface Props {
   params: {
@@ -26,23 +29,41 @@ interface Props {
   };
 }
 export default function UpdatingUser({ params }: Props) {
+  const dispatch = useAppDispatch();
   const id = Number(params.id);
+  const users = useAppSelector((state) => state.user.users);
   // create fake userToBeUpdated
   const userToBeUpdated = users.find((user) => user.id === id);
 
   const [role, setRole] = React.useState(userToBeUpdated?.role);
   const roles = [
-    { id: 1, name: UserType.serviceProvider },
-    { id: 2, name: UserType.normalUser },
+    { id: 1, name: UserType.SERVICE_PROVIDER },
+    { id: 2, name: UserType.NORMAL_USER },
   ];
 
   const handleChangeRole = (event: SelectChangeEvent) => {
     setRole(event.target.value as UserType);
   };
 
+  const handleUpdateUser = (formData: FormData) => {
+    const id = userToBeUpdated?.id as number;
+    const name = formData.get("name") as string;
+    const emailAddress = formData.get("email") as string;
+    const address = formData.get("address") as string;
+    const role = formData.get("role") as UserType;
+
+    const updatedUser: User = { id, name, emailAddress, address, role };
+
+    dispatch(editUser(updatedUser));
+
+    redirect("/users");
+  };
+
   if (!userToBeUpdated) return null;
   return (
     <Box
+      component="form"
+      action={handleUpdateUser}
       sx={{
         mt: 7,
         width: "100%",
@@ -89,6 +110,8 @@ export default function UpdatingUser({ params }: Props) {
             }}
           />
           <TextField
+            name="name"
+            defaultValue={userToBeUpdated.name}
             placeholder={userToBeUpdated.name}
             sx={{
               width: "95%",
@@ -126,7 +149,9 @@ export default function UpdatingUser({ params }: Props) {
             }}
           />
           <TextField
-            placeholder={userToBeUpdated.emailAdress}
+            name="email"
+            defaultValue={userToBeUpdated.emailAddress}
+            placeholder={userToBeUpdated.emailAddress}
             sx={{
               width: "95%",
               "& .MuiOutlinedInput-root": {
@@ -163,7 +188,9 @@ export default function UpdatingUser({ params }: Props) {
             }}
           />
           <TextField
-            placeholder={userToBeUpdated.adress}
+            name="address"
+            defaultValue={userToBeUpdated.address}
+            placeholder={userToBeUpdated.address}
             sx={{
               width: "95%",
               "& .MuiOutlinedInput-root": {
@@ -211,6 +238,7 @@ export default function UpdatingUser({ params }: Props) {
             }}
           >
             <Select
+              name="role"
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               defaultValue={role}
