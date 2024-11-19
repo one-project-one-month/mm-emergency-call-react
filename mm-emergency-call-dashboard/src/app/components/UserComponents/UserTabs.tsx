@@ -1,27 +1,28 @@
-'use client'
+"use client";
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import { useDispatch } from "react-redux";
-import { filterUserByRole } from "@/lib/apps/user/userSlice";
+import { filterUserByRole, setIsAllSelected } from "@/lib/apps/user/userSlice";
 import { FilterByRole, UserType } from "@/types/users";
 
 const ROLE_TABS: { label: FilterByRole; value: FilterByRole }[] = [
   { label: "All", value: "All" },
-  { label: UserType.NORMAL_USER, value: UserType.NORMAL_USER},
-  { label: UserType.SERVICE_PROVIDER, value: UserType.SERVICE_PROVIDER},
+  { label: UserType.NORMAL_USER, value: UserType.NORMAL_USER },
+  { label: UserType.SERVICE_PROVIDER, value: UserType.SERVICE_PROVIDER },
 ];
 
 export default function UserTabs() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [userRole, setUserRole] = useState<FilterByRole>("All");
 
   const handleChange = (e: React.SyntheticEvent, newValue: FilterByRole) => {
-    e.preventDefault()
+    e.preventDefault();
     setUserRole(newValue);
-    dispatch(filterUserByRole(newValue))
+    dispatch(filterUserByRole(newValue));
+    dispatch(setIsAllSelected());
   };
 
   return (

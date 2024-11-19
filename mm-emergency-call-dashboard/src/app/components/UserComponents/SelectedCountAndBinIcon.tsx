@@ -1,11 +1,19 @@
-'use client'
-import { Box, Typography } from "@mui/material";
+"use client";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
+import { useAppSelector, useAppDispatch } from "@/lib/hooks";
+import { removeUser } from "@/lib/apps/user/userSlice";
 
 export default function SelectedCountAndBinIcon() {
-  const selectedUserCount = useSelector((state: RootState) => state.user.selectedUsers)
+  const dispatch = useAppDispatch();
+  const selectedUserCount = useAppSelector(
+    (state: RootState) => state.user.selectedUsers
+  );
+
+  const handleDeleteUser = () => {
+    selectedUserCount.map((user) => dispatch(removeUser(user.id)));
+  };
   return (
     <Box
       sx={{
@@ -28,7 +36,9 @@ export default function SelectedCountAndBinIcon() {
         {selectedUserCount.length} selected
       </Typography>
       {selectedUserCount.length > 0 && (
-        <DeleteOutlineOutlinedIcon sx={{ cursor: "pointer" }} />
+        <IconButton onClick={handleDeleteUser}>
+          <DeleteOutlineOutlinedIcon />
+        </IconButton>
       )}
     </Box>
   );
