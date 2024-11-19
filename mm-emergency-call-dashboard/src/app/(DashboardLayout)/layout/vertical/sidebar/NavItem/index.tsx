@@ -11,9 +11,9 @@ import { Theme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { styled, useTheme } from '@mui/material/styles';
-import { useSelector } from "@/store/hooks";
+import { useAppSelector } from "@/lib/hooks";
 import { useTranslation } from "react-i18next";
-import { AppState } from "@/store/store";
+import { AppState } from "@/lib/store";
 
 type NavGroup = {
     [x: string]: any;
@@ -48,7 +48,7 @@ export default function NavItem({
     onClick,
 }: ItemType) {
     const lgDown = useMediaQuery((theme: Theme) => theme.breakpoints.down("lg"));
-    const customizer = useSelector((state: AppState) => state.customizer);
+    const customizer = useAppSelector((state: AppState) => state.customizer);
     const Icon = item?.icon;
     const theme = useTheme();
     const { t } = useTranslation();

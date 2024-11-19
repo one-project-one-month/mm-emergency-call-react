@@ -1,11 +1,11 @@
 import { Box, Avatar, Typography, IconButton, Tooltip, useMediaQuery } from '@mui/material';
-import { useSelector } from '@/store/hooks';
+import { useAppSelector } from '@/lib/hooks';
 import { IconPower } from '@tabler/icons-react';
-import { AppState } from '@/store/store';
+import { AppState } from '@/lib/store';
 import Link from 'next/link';
 
 export const Profile = () => {
-    const customizer = useSelector((state: AppState) => state.customizer);
+    const customizer = useAppSelector((state: AppState) => state.customizer);
     const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up('lg'));
     const hideMenu = lgUp ? customizer.isCollapse && !customizer.isSidebarHover : '';
 

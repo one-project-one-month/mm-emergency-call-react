@@ -8,8 +8,8 @@ import Sidebar from "./layout/vertical/sidebar/Sidebar";
 import Customizer from "./layout/shared/customizer/Customizer";
 import Navigation from "./layout/horizontal/navbar/Navigation";
 import HorizontalHeader from "./layout/horizontal/header/Header";
-import { useSelector } from "@/store/hooks";
-import { AppState } from "@/store/store";
+import { useAppSelector } from "@/lib/hooks";
+import { AppState } from "@/lib/store";
 
 const MainWrapper = styled("div")(() => ({
     display: "flex",
@@ -38,7 +38,7 @@ export default function RootLayout({
 }) {
     const [isSidebarOpen, setSidebarOpen] = useState(true);
     const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-    const customizer = useSelector((state: AppState) => state.customizer);
+    const customizer = useAppSelector((state: AppState) => state.customizer);
     const theme = useTheme();
 
     return (
