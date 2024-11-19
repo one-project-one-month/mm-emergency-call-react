@@ -1,16 +1,32 @@
-'use client'
+"use client";
 import { Box, Typography } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
+import { removeAdmin, resetSelectAdmins } from "@/lib/apps/admin/adminSlice";
+import { useAppDispatch } from "@/lib/hooks";
 
 export default function SelectedCountAndBinIcon() {
-  const selectedUserCount = useSelector((state: RootState) => state.user.selectedUsers)
+  const dispatch = useAppDispatch();
+
+  const selectedAdmins = useSelector(
+    (state: RootState) => state.admin.selectedAdmins
+  );
+
+  // Handle deleting selected admins
+  const handleDeleteAdmins = () => {
+    // Dispatch the removeAdmin action for each selected admin
+    selectedAdmins.forEach((admin) => {
+      dispatch(removeAdmin(admin.id));
+    });
+    // Reset the selectedAdmins array
+    dispatch(resetSelectAdmins());
+  };
   return (
     <Box
       sx={{
-        opacity: selectedUserCount.length ? 1 : 0,
-        zIndex: selectedUserCount.length ? 1 : -1,
+        opacity: selectedAdmins.length ? 1 : 0,
+        zIndex: selectedAdmins.length ? 1 : -1,
         position: "absolute",
         top: 0,
         left: 0,
@@ -24,11 +40,12 @@ export default function SelectedCountAndBinIcon() {
         alignItems: "center",
       }}
     >
-      <Typography variant="body1">
-        {selectedUserCount.length} selected
-      </Typography>
-      {selectedUserCount.length > 0 && (
-        <DeleteOutlineOutlinedIcon sx={{ cursor: "pointer" }} />
+      <Typography variant="body1">{selectedAdmins.length} selected</Typography>
+      {selectedAdmins.length > 0 && (
+        <DeleteOutlineOutlinedIcon
+          onClick={handleDeleteAdmins}
+          sx={{ cursor: "pointer" }}
+        />
       )}
     </Box>
   );

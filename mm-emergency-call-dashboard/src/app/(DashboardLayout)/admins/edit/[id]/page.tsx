@@ -1,13 +1,11 @@
 "use client";
-
-import React, { useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
   Box,
   Button,
   Divider,
   FormControl,
   InputAdornment,
-  Link,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -18,19 +16,40 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { UserType } from "@/types/users";
+import React from "react";
+import { editAdmin } from "@/lib/apps/admin/adminSlice";
+import { Admin } from "@/types/admins";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
-const AddingUser = () => {
-  const [role, setRole] = useState({});
-  const roles = [
-    { id: 1, name: UserType.SERVICE_PROVIDER },
-    { id: 2, name: UserType.NORMAL_USER },
-  ];
-  const handleChangeRole = (event: SelectChangeEvent) => {
-    setRole(event.target.value as UserType);
+interface Props {
+  params: {
+    id: string;
   };
+}
+export default function UpdatingAdmin({ params }: Props) {
+  const dispatch = useAppDispatch();
+  const id = Number(params.id);
+  // create fake userToBeUpdated
+  const admins = useAppSelector((state) => state.admin.admins);
+
+  const adminToBeUpdated = admins.find((Admin: Admin) => Admin.id === id);
+
+  const handleUpdateUser = (formData: FormData) => {
+    const id = adminToBeUpdated?.id as number;
+    const name = formData.get("name") as string;
+    const emailAddress = formData.get("email") as string;
+
+    const updatedAdmin: Admin = { id, name, emailAddress };
+    dispatch(editAdmin(updatedAdmin));
+    redirect("/admins");
+  };
+
+  if (!adminToBeUpdated) return null;
   return (
     <Box
+      component="form"
+      action={handleUpdateUser}
       sx={{
         mt: 7,
         width: "100%",
@@ -41,7 +60,7 @@ const AddingUser = () => {
       }}
     >
       <Box sx={{ py: "15px", display: "flex", alignItems: "center" }}>
-        <Typography variant="h5">Add User form</Typography>
+        <Typography variant="h5">Edit Admin Form</Typography>
       </Box>
       <Divider
         sx={{
@@ -51,6 +70,7 @@ const AddingUser = () => {
           mb: "15px",
         }}
       />
+
       {/* Name */}
       <Box sx={{ width: "100%" }}>
         <Typography variant="h6">Name</Typography>
@@ -76,7 +96,9 @@ const AddingUser = () => {
             }}
           />
           <TextField
-            placeholder={"Enter the name"}
+            name="name"
+            defaultValue={""}
+            placeholder={adminToBeUpdated.name}
             sx={{
               width: "95%",
               "& .MuiOutlinedInput-root": {
@@ -113,7 +135,9 @@ const AddingUser = () => {
             }}
           />
           <TextField
-            placeholder={"Enter the email"}
+            name="email"
+            defaultValue={""}
+            placeholder={adminToBeUpdated.emailAddress}
             sx={{
               width: "95%",
               "& .MuiOutlinedInput-root": {
@@ -125,94 +149,6 @@ const AddingUser = () => {
         </Box>
       </Box>
 
-      {/* Address */}
-      <Box sx={{ width: "100%" }}>
-        <Typography variant="h6">Address</Typography>
-
-        <Box sx={{ width: "100%", mt: 1, mb: 4, display: "flex" }}>
-          <TextField
-            sx={{
-              width: "5%",
-              borderRight: "none",
-              "& .MuiOutlinedInput-root": {
-                borderRight: "none",
-                borderRadius: "4px 0 0 4px", // Only round the left corners
-              },
-            }}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LocationOnOutlinedIcon />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-          <TextField
-            placeholder={"Enter the address"}
-            sx={{
-              width: "95%",
-              "& .MuiOutlinedInput-root": {
-                borderLeft: "none",
-                borderRadius: "0 4px 4px 0", // Only round the right corners
-              },
-            }}
-          />
-        </Box>
-      </Box>
-      {/* Role */}
-
-      <Box sx={{ minWidth: 120 }}>
-        <Typography variant="h6">Role</Typography>
-
-        <Box sx={{ display: "flex", mt: 1, mb: 4 }}>
-          <TextField
-            sx={{
-              width: "5%",
-              borderRight: "none",
-              "& .MuiOutlinedInput-root": {
-                borderRight: "none",
-                borderRadius: "4px 0 0 4px", // Only round the left corners
-              },
-            }}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <AccountCircleOutlinedIcon />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-          <FormControl
-            fullWidth
-            sx={{
-              width: "95%",
-              "& .MuiOutlinedInput-root": {
-                borderLeft: "none",
-                borderRadius: "0 4px 4px 0", // Only round the right corners
-              },
-            }}
-          >
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              defaultValue={roles[0].name}
-              onChange={handleChangeRole}
-            >
-              {roles.map((role) => {
-                return (
-                  <MenuItem value={role.name} key={role.id}>
-                    {role.name}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-        </Box>
-      </Box>
       {/* Buttons */}
       <Box sx={{ display: "flex" }}>
         <Button
@@ -224,9 +160,9 @@ const AddingUser = () => {
             ":hover": { bgcolor: "#396efe" },
           }}
         >
-          Update User
+          Update Admin
         </Button>
-        <Link href={"/users"}>
+        <Link href={"/admins"}>
           <Button
             type="button"
             variant="contained"
@@ -243,6 +179,4 @@ const AddingUser = () => {
       </Box>
     </Box>
   );
-};
-
-export default AddingUser;
+}
