@@ -30,10 +30,10 @@ import { useParams, redirect } from "next/navigation";
 // }
 export default function UpdatingUser() {
     const dispatch = useAppDispatch();
-    const { id } = useParams()
+    const { id } = useParams();
     const userId = Number(id);
     const users = useAppSelector((state) => state.user.users);
-    // create fake userToBeUpdated
+
     const userToBeUpdated = users.find((user) => user.id === userId);
 
     const [role, setRole] = React.useState(userToBeUpdated?.role);
