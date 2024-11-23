@@ -13,34 +13,33 @@ import TicketReducer from "./apps/tickets/TicketSlice";
 import ContactsReducer from "./apps/contacts/ContactSlice";
 import UserProfileReducer from "./apps/userProfile/UserProfileSlice";
 import BlogReducer from "./apps/blog/BlogSlice";
-import UserReducer from './apps/user/userSlice'
+import UserReducer from "./apps/user/userSlice";
+import AdminReducer from "./apps/admin/adminSlice";
 const persistConfig = {
-    key: "root",
-    storage,
+  key: "root",
+  storage,
 };
 
 const rootReducer = combineReducers({
-    user: UserReducer,
-    customizer: CustomizerReducer,
-    
+  user: UserReducer,
+  admin: AdminReducer,
+  customizer: CustomizerReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const makeStore = () => {
-    return configureStore({
-        reducer: persistedReducer,
-        devTools: process.env.NODE_ENV !== "production",
-        middleware: (getDefaultMiddleware) =>
-            getDefaultMiddleware({ serializableCheck: false, immutableCheck: false }),
-    });
+  return configureStore({
+    reducer: persistedReducer,
+    devTools: process.env.NODE_ENV !== "production",
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({ serializableCheck: false, immutableCheck: false }),
+  });
 };
-
 
 export const persistor = persistStore(makeStore());
 
-
 export type AppStore = ReturnType<typeof makeStore>;
-export type RootState = ReturnType<AppStore['getState']>;
-export type AppDispatch = AppStore['dispatch'];
+export type RootState = ReturnType<AppStore["getState"]>;
+export type AppDispatch = AppStore["dispatch"];
 export type AppState = ReturnType<typeof rootReducer>;
