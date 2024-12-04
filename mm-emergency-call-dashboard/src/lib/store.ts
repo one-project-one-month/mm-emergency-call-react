@@ -4,9 +4,8 @@ import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 import CustomizerReducer from "./customizer/CustomizerSlice";
-
-
 import UserReducer from './apps/user/userSlice'
+import AdminReducer from './apps/admin/adminSlice'
 
 const persistConfig = {
   key: "root",
