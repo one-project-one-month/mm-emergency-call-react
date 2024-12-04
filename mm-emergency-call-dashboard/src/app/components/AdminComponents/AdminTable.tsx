@@ -8,22 +8,22 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
-import UserTableRow from "./UserTableRow";
+import AdminTableRow from "./AdminTableRow";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import { selectAllUser } from "@/lib/apps/user/userSlice";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-const UserTable: React.FC = () => {
-  const users = useAppSelector((state: RootState) => state.user.users);
-  const isAllSelected = useAppSelector(
-    (state: RootState) => state.user.isAllSelected
+import { selectAllAdmin } from "@/lib/apps/admin/adminSlice";
+const AdminTable: React.FC = () => {
+  const admins = useSelector((state: RootState) => state.admin.admins);
+  const isAllSelected = useSelector(
+    (state: RootState) => state.admin.isAllSelected
   );
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   const handleSelectAllChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const usersToBeSelected = event.target.checked ? users : [];
-    dispatch(selectAllUser(usersToBeSelected));
+    dispatch(selectAllAdmin(event.target.checked));
   };
 
   return (
@@ -55,20 +55,15 @@ const UserTable: React.FC = () => {
             <TableCell align="left" sx={{ width: "25%" }}>
               Email Adress
             </TableCell>
-            <TableCell align="left" sx={{ width: "25%" }}>
-              Adress
-            </TableCell>
-            <TableCell align="left" sx={{ width: "20%" }}>
-              Role
-            </TableCell>
+
             <TableCell align="left" sx={{ width: "8%" }}>
               Action
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((user) => (
-            <UserTableRow key={user.id} user={user} />
+          {admins.map((admin) => (
+            <AdminTableRow key={admin.id} admin={admin} />
           ))}
         </TableBody>
       </Table>
@@ -76,4 +71,4 @@ const UserTable: React.FC = () => {
   );
 };
 
-export default React.memo(UserTable);
+export default React.memo(AdminTable);

@@ -1,14 +1,17 @@
-'use client'
+"use client";
 import { Box, InputAdornment, TextField } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { useDispatch } from "react-redux";
+import { searchAdmin } from "@/lib/apps/admin/adminSlice";
 import { searchUser } from "@/lib/apps/user/userSlice";
+
 export default function SearchBarAndFilterIcon() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleUserSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = event.target.value;
-    dispatch(searchUser(searchTerm)); 
+    dispatch(searchAdmin(searchTerm));
+    dispatch(searchUser(searchTerm));
   };
   return (
     <Box

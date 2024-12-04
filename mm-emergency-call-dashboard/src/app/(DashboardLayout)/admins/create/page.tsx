@@ -12,37 +12,32 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import Link from "next/link";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import React from "react";
-import { users, UserType } from "../../page";
-import Link from "next/link";
+import { UserType } from "@/types/users";
+import { Admin } from "@/types/admins";
+import { redirect } from "next/navigation";
+import { addAdmin } from "@/lib/apps/admin/adminSlice";
+import { useAppDispatch } from "@/lib/hooks";
 
-interface Props {
-  params: {
-    id: string;
+const AddingAdmin = () => {
+  const dispatch = useAppDispatch();
+  const handleAddAdmin = (formData: FormData) => {
+    const id = Math.floor(Math.random() * 10);
+    const name = formData.get("name") as string;
+    const emailAddress = formData.get("email") as string;
+
+    const adminToBeAdded: Admin = { id, name, emailAddress };
+    dispatch(addAdmin(adminToBeAdded));
+    redirect("/admins");
   };
-}
-export default function UpdatingUser({ params }: Props) {
-  const id = Number(params.id);
-  // create fake userToBeUpdated
-  const userToBeUpdated = users.find((user) => user.id === id);
-
-  const [role, setRole] = React.useState(userToBeUpdated?.role);
-  const roles = [
-    { id: 1, name: UserType.serviceProvider },
-    { id: 2, name: UserType.normalUser },
-  ];
-
-  const handleChangeRole = (event: SelectChangeEvent) => {
-    setRole(event.target.value as UserType);
-  };
-
-  if (!userToBeUpdated) return null;
   return (
     <Box
+      component="form"
+      action={handleAddAdmin}
       sx={{
         mt: 7,
         width: "100%",
@@ -53,7 +48,7 @@ export default function UpdatingUser({ params }: Props) {
       }}
     >
       <Box sx={{ py: "15px", display: "flex", alignItems: "center" }}>
-        <Typography variant="h5">Edit User Form</Typography>
+        <Typography variant="h5">Add Admin form</Typography>
       </Box>
       <Divider
         sx={{
@@ -63,7 +58,6 @@ export default function UpdatingUser({ params }: Props) {
           mb: "15px",
         }}
       />
-
       {/* Name */}
       <Box sx={{ width: "100%" }}>
         <Typography variant="h6">Name</Typography>
@@ -89,7 +83,9 @@ export default function UpdatingUser({ params }: Props) {
             }}
           />
           <TextField
-            placeholder={userToBeUpdated.name}
+            name="name"
+            defaultValue=""
+            placeholder={"Enter the name"}
             sx={{
               width: "95%",
               "& .MuiOutlinedInput-root": {
@@ -126,7 +122,9 @@ export default function UpdatingUser({ params }: Props) {
             }}
           />
           <TextField
-            placeholder={userToBeUpdated.emailAdress}
+            name="email"
+            defaultValue=""
+            placeholder={"Enter the email"}
             sx={{
               width: "95%",
               "& .MuiOutlinedInput-root": {
@@ -135,96 +133,6 @@ export default function UpdatingUser({ params }: Props) {
               },
             }}
           />
-        </Box>
-      </Box>
-
-      {/* Address */}
-      <Box sx={{ width: "100%" }}>
-        <Typography variant="h6">Address</Typography>
-
-        <Box sx={{ width: "100%", mt: 1, mb: 4, display: "flex" }}>
-          <TextField
-            sx={{
-              width: "5%",
-              borderRight: "none",
-              "& .MuiOutlinedInput-root": {
-                borderRight: "none",
-                borderRadius: "4px 0 0 4px", // Only round the left corners
-              },
-            }}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LocationOnOutlinedIcon />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-          <TextField
-            placeholder={userToBeUpdated.adress}
-            sx={{
-              width: "95%",
-              "& .MuiOutlinedInput-root": {
-                borderLeft: "none",
-                borderRadius: "0 4px 4px 0", // Only round the right corners
-              },
-            }}
-          />
-        </Box>
-      </Box>
-
-      {/* Role */}
-
-      <Box sx={{ minWidth: 120 }}>
-        <Typography variant="h6">Role</Typography>
-
-        <Box sx={{ display: "flex", mt: 1, mb: 4 }}>
-          <TextField
-            sx={{
-              width: "5%",
-              borderRight: "none",
-              "& .MuiOutlinedInput-root": {
-                borderRight: "none",
-                borderRadius: "4px 0 0 4px", // Only round the left corners
-              },
-            }}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <AccountCircleOutlinedIcon />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-          <FormControl
-            fullWidth
-            sx={{
-              width: "95%",
-              "& .MuiOutlinedInput-root": {
-                borderLeft: "none",
-                borderRadius: "0 4px 4px 0", // Only round the right corners
-              },
-            }}
-          >
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              defaultValue={role}
-              onChange={handleChangeRole}
-            >
-              {roles.map((role) => {
-                return (
-                  <MenuItem value={role.name} key={role.id}>
-                    {role.name}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
         </Box>
       </Box>
 
@@ -239,9 +147,9 @@ export default function UpdatingUser({ params }: Props) {
             ":hover": { bgcolor: "#396efe" },
           }}
         >
-          Update User
+          Add Admin
         </Button>
-        <Link href={"/users"}>
+        <Link href={"/admins"}>
           <Button
             type="button"
             variant="contained"
@@ -258,4 +166,6 @@ export default function UpdatingUser({ params }: Props) {
       </Box>
     </Box>
   );
-}
+};
+
+export default AddingAdmin;
