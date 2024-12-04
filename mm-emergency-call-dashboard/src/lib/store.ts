@@ -3,18 +3,11 @@ import { combineReducers } from "redux";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import counterReducer from "./counter/counterSlice";
 import CustomizerReducer from "./customizer/CustomizerSlice";
-import EcommerceReducer from "./apps/eCommerce/ECommerceSlice";
-import ChatsReducer from "./apps/chat/ChatSlice";
-import NotesReducer from "./apps/notes/NotesSlice";
-import EmailReducer from "./apps/email/EmailSlice";
-import TicketReducer from "./apps/tickets/TicketSlice";
-import ContactsReducer from "./apps/contacts/ContactSlice";
-import UserProfileReducer from "./apps/userProfile/UserProfileSlice";
-import BlogReducer from "./apps/blog/BlogSlice";
-import UserReducer from "./apps/user/userSlice";
-import AdminReducer from "./apps/admin/adminSlice";
+
+
+import UserReducer from './apps/user/userSlice'
+
 const persistConfig = {
   key: "root",
   storage,
