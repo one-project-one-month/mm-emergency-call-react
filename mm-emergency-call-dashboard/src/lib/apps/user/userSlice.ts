@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserType, FilterByRole, User } from "@/types/users";
 
-// Define the unfiltered list of users
 const initialStateUsers: User[] = [
     { id: 1, name: "U San Lin Htun", emailAddress: "sanlinhtun@gmail.com", address: "Yangon, Hlaing, 122th street", role: UserType.SERVICE_PROVIDER },
     { id: 2, name: "U Wunna Aung", emailAddress: "wunnaaung@gmail.com", address: "Yangon, San Chaung, 122th street", role: UserType.SERVICE_PROVIDER },

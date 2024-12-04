@@ -13,8 +13,7 @@ export default function SearchBarAndFilterIcon() {
   return (
     <Box
       sx={{
-        // opacity: selectedUsers.length ? 0 : 1,
-        // zIndex: selectedUsers.length ? -1 : 1,
+      
         mb: 2,
         width: "100%",
         display: "flex",
