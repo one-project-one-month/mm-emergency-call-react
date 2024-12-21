@@ -44,13 +44,14 @@ const AdminTable: React.FC = () => {
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell sx={{ width: "2%" }}>
+            <TableCell sx={{ width: "2%" }}>No</TableCell>
+            {/*   <TableCell sx={{ width: "2%" }}>
               {" "}
               <Checkbox
                 checked={isAllSelected}
                 onChange={handleSelectAllChange}
               />
-            </TableCell>
+            </TableCell> */}
             <TableCell sx={{ width: "20%" }}>Name</TableCell>
             <TableCell align="left" sx={{ width: "25%" }}>
               Email Adress
@@ -62,8 +63,8 @@ const AdminTable: React.FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {admins.map((admin) => (
-            <AdminTableRow key={admin.id} admin={admin} />
+          {admins.map((admin, index) => (
+            <AdminTableRow key={admin.id} admin={admin} index={index + 1} />
           ))}
         </TableBody>
       </Table>
