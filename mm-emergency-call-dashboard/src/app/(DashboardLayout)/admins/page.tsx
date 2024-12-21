@@ -45,8 +45,6 @@ const AdminPage = () => {
           padding: 2.5,
         }}
       >
-        <SelectedCountAndBinIcon />
-
         <SearchBarAndFilterIcon />
         <AdminTable />
       </Box>

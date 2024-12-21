@@ -7,12 +7,16 @@ import { Admin } from "@/types/admins";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import { toggleSelectUser } from "@/lib/apps/user/userSlice";
-import { toggleSelectAdmin } from "@/lib/apps/admin/adminSlice";
+import {
+  setIsAllSelected,
+  toggleSelectAdmin,
+} from "@/lib/apps/admin/adminSlice";
 interface AdminTableRowProps {
   admin: Admin;
+  index: number;
 }
 
-const UserTableRow: React.FC<AdminTableRowProps> = ({ admin }) => {
+const UserTableRow: React.FC<AdminTableRowProps> = ({ admin, index }) => {
   const dispatch = useDispatch();
   const isAllSelected = useSelector(
     (state: RootState) => state.admin.isAllSelected
@@ -26,6 +30,7 @@ const UserTableRow: React.FC<AdminTableRowProps> = ({ admin }) => {
 
   const handleCheckboxChange = () => {
     dispatch(toggleSelectAdmin(admin));
+    dispatch(setIsAllSelected());
   };
   return (
     <TableRow
@@ -35,12 +40,14 @@ const UserTableRow: React.FC<AdminTableRowProps> = ({ admin }) => {
         bgcolor: "white",
       }}
     >
-      <TableCell>
+      {/*   <TableCell>
         <Checkbox
           checked={isAllSelected || isSelected}
           onChange={handleCheckboxChange}
         />
-      </TableCell>
+      </TableCell> */}
+
+      <TableCell>{index}.</TableCell>
       <TableCell component="th" scope="row">
         {admin.name}
       </TableCell>

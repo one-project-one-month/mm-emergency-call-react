@@ -59,6 +59,13 @@ const adminSlice = createSlice({
     resetSelectAdmins(state) {
       state.selectedAdmins = [];
     },
+    setIsAllSelected(state) {
+      state.isAllSelected = state.admins.every((admin) =>
+        state.selectedAdmins.some(
+          (selectedAdmin) => selectedAdmin.id === admin.id
+        )
+      );
+    },
     toggleSelectAdmin(state, action: PayloadAction<Admin>) {
       const user = action.payload;
       const isSelected = state.selectedAdmins.some((u) => u.id === user.id);
@@ -83,6 +90,7 @@ export const {
   removeAdmin,
   editAdmin,
   selectAllAdmin,
+  setIsAllSelected,
   toggleSelectAdmin,
   resetSelectAdmins,
   searchAdmin,
