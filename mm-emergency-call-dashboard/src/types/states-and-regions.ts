@@ -1,0 +1,16 @@
+export enum StatesAndRegions {
+  YANGON = "Yangon",
+  MANDALAY = "Mandalay",
+  MAGWAY = "Magway",
+  SAGAING = "Sagaing",
+  TANINTHARYI = "Tanintharyi",
+  BAGO = "Bago",
+  AYEYARWADY = "Ayeyarwady",
+  KACHIN = "Kachin",
+  KAYAH = "Kayah",
+  KAYIN = "Kayin",
+  CHIN = "Chin",
+  MON = "Mon",
+  RAKHINE = "Rakhine",
+  SHAN = "Shan",
+}
