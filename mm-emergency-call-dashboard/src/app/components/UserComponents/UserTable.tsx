@@ -44,13 +44,14 @@ const UserTable: React.FC = () => {
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell sx={{ width: "2%" }}>
+            <TableCell sx={{ width: "1%" }}>
               {" "}
               <Checkbox
                 checked={isAllSelected}
                 onChange={handleSelectAllChange}
               />
             </TableCell>
+            <TableCell sx={{ width: "1%" }}>No</TableCell>
             <TableCell sx={{ width: "20%" }}>Name</TableCell>
             <TableCell align="left" sx={{ width: "25%" }}>
               Email Adress
@@ -67,8 +68,8 @@ const UserTable: React.FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((user) => (
-            <UserTableRow key={user.id} user={user} />
+          {users.map((user, index) => (
+            <UserTableRow key={user.id} user={user} index={index + 1} />
           ))}
         </TableBody>
       </Table>
