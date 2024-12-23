@@ -4,20 +4,13 @@ import {
   Box,
   Button,
   Divider,
-  FormControl,
   InputAdornment,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
   TextField,
   Typography,
 } from "@mui/material";
 import Link from "next/link";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { UserType } from "@/types/users";
 import { Admin } from "@/types/admins";
 import { redirect } from "next/navigation";
 import { addAdmin } from "@/lib/apps/admin/adminSlice";
@@ -30,8 +23,9 @@ const AddingAdmin = () => {
     const name = formData.get("name") as string;
     const emailAddress = formData.get("email") as string;
 
-    const adminToBeAdded: Admin = { id, name, emailAddress };
-    dispatch(addAdmin(adminToBeAdded));
+    const newAdmin: Admin = { id, name, emailAddress };
+    dispatch(addAdmin(newAdmin));
+    
     redirect("/admins");
   };
   return (

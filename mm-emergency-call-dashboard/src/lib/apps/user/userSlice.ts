@@ -60,7 +60,6 @@ const userSlice = createSlice({
       initialStateUsers = initialStateUsers.filter(
         (user) => user.id !== action.payload
       );
-
       state.selectedUsers = state.selectedUsers.filter(
         (user) => user.id !== action.payload
       );

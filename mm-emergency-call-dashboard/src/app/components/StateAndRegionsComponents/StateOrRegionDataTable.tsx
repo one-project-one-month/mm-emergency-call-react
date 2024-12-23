@@ -29,7 +29,7 @@ export default function StateOrRegionDataTable({ stateOrRegionName }: Props) {
         },
       }}
     >
-      <Typography>{stateOrRegionName}</Typography>
+      {/* <Typography>{stateOrRegionName}</Typography> */}
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>

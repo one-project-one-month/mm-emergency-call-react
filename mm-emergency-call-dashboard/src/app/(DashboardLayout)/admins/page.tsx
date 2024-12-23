@@ -3,14 +3,11 @@ import { Box, Button, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import Link from "next/link";
 import SearchBarAndFilterIcon from "@/app/components/UserComponents/SearchBarAndTableIcon";
-import SelectedCountAndBinIcon from "@/app/components/UserComponents/SelectedCountAndBinIcon";
 
 const AdminPage = () => {
   return (
     <Box>
       <Typography>Admin</Typography>
-
-      {/* Add Admin Button */}
       <Box
         sx={{
           mt: 4,
@@ -35,7 +32,6 @@ const AdminPage = () => {
         </Link>
       </Box>
 
-      {/* Admin Table Container*/}
       <Box
         sx={{
           width: "100%",

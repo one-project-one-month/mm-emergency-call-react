@@ -1,7 +1,6 @@
 "use client";
 import { Box, InputAdornment, TextField } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { useDispatch } from "react-redux";
 import { searchAdmin } from "@/lib/apps/admin/adminSlice";
 import { searchUser } from "@/lib/apps/user/userSlice";
@@ -16,7 +15,6 @@ export default function SearchBarAndFilterIcon() {
   return (
     <Box
       sx={{
-      
         mb: 2,
         width: "100%",
         display: "flex",
@@ -39,9 +37,6 @@ export default function SearchBarAndFilterIcon() {
         }}
         onChange={handleUserSearch}
       />
-      <Box>
-        <FilterAltOutlinedIcon />
-      </Box>
     </Box>
   );
 }

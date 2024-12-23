@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Admin } from "@/types/admins";
 
-// Define the unfiltered list of users
 const initialStateAdmins: Admin[] = [
   {
     id: 1,

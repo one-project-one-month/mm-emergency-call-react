@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   TableRow,
   TableCell,
   Checkbox,
   Box,
   IconButton,
-  Typography,
-  Button,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import UserRoleBadge from "./UserRoleBadge";
@@ -22,6 +20,7 @@ import {
 import { User } from "@/types/users";
 import MoreVertBox from "./MoreVertBox";
 import WarningBox from "./WarningBox";
+
 interface UserTableRowProps {
   user: User;
   index: number;
@@ -29,10 +28,10 @@ interface UserTableRowProps {
 
 const UserTableRow: React.FC<UserTableRowProps> = ({ user, index }) => {
   const [showMoreVertBox, setShowMoreVertBox] = useState<boolean>(false);
-
   const [showWarningBox, setShowWarningBox] = useState<boolean>(false);
 
   const dispatch = useDispatch();
+
   const isAllSelected = useSelector(
     (state: RootState) => state.user.isAllSelected
   );
@@ -43,27 +42,6 @@ const UserTableRow: React.FC<UserTableRowProps> = ({ user, index }) => {
     (selectedUser) => selectedUser.id === user.id
   );
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const moreVertBox = document.getElementById(`${user.id.toString()}`);
-      const warningBox = document.getElementById(`warningBox${user.id}`);
-
-      if (moreVertBox && !moreVertBox.contains(event.target as Node)) {
-        setShowMoreVertBox(false);
-      }
-
-      if (warningBox && !warningBox.contains(event.target as Node)) {
-        setShowWarningBox(false);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [user.id]);
-
   const handleCheckboxChange = () => {
     dispatch(toggleSelectUser(user));
     dispatch(setIsAllSelected());
@@ -72,11 +50,11 @@ const UserTableRow: React.FC<UserTableRowProps> = ({ user, index }) => {
   const handleDeleteUser = () => {
     dispatch(removeUser(user.id));
   };
+
   return (
     <TableRow
       sx={{
         "&:last-child td, &:last-child th": { border: 0 },
-        // bgcolor: isSelected ? "#EBF0FF" : "white",
         bgcolor: "white",
       }}
     >
@@ -96,7 +74,6 @@ const UserTableRow: React.FC<UserTableRowProps> = ({ user, index }) => {
         <UserRoleBadge role={user.role} />
       </TableCell>
       <TableCell>
-        {/* Morevert Icon */}
         <Box
           id={`${user.id}`}
           sx={{
@@ -104,7 +81,6 @@ const UserTableRow: React.FC<UserTableRowProps> = ({ user, index }) => {
             display: "flex",
           }}
         >
-          {/* MoreVertBox */}
           <MoreVertBox
             user={user}
             showMoreVertBox={showMoreVertBox}
@@ -113,22 +89,22 @@ const UserTableRow: React.FC<UserTableRowProps> = ({ user, index }) => {
           />
 
           <IconButton
-            id="hello"
-            onClick={() => {
-              setShowMoreVertBox(!showMoreVertBox);
-            }}
+            onClick={() => setShowMoreVertBox(!showMoreVertBox)}
           >
             <MoreVertIcon fontSize="large" />
           </IconButton>
         </Box>
       </TableCell>
-      {/* Warning Box */}
-      <WarningBox
-        showWarningBox={showWarningBox}
-        setShowWarningBox={setShowWarningBox}
-        users={[user]}
-        handleDeleteUser={handleDeleteUser}
-      />
+      
+      {showWarningBox && (
+        <WarningBox
+          showWarningBox={showWarningBox}
+          setShowWarningBox={setShowWarningBox}
+          onConfirm={handleDeleteUser}
+          title="Are you sure you want to delete this user?"
+          description="This action will permanently delete this user."
+        />
+      )}
     </TableRow>
   );
 };

@@ -1,83 +1,70 @@
 "use client";
 
-import { User } from "@/types/users";
-import { Box, Button, Typography } from "@mui/material";
+import React from "react";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Slide,
+} from "@mui/material";
+import { TransitionProps } from "@mui/material/transitions";
+import CancelButton from "../CustomizedButtons/CancelButton";
+import ConfirmButton from "../CustomizedButtons/ConfirmButton";
 
 interface Props {
   showWarningBox: boolean;
-  users: User[];
   setShowWarningBox: React.Dispatch<React.SetStateAction<boolean>>;
-  handleDeleteUser: () => void;
+  onConfirm: () => void;
+  title: string;
+  description: string;
 }
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
 
 export default function WarningBox({
   showWarningBox,
-  users,
   setShowWarningBox,
-  handleDeleteUser,
+  onConfirm,
+  title,
+  description,
 }: Props) {
-  return (
-    <Box
-      sx={{
-        width: "100%",
-        height: "100%",
-        position: "absolute",
-        top: 0,
-        left: 0,
-        zIndex: 10,
-        display: showWarningBox ? "flex" : "none",
-        justifyContent: "center",
-        alignItems: "center",
-        bgcolor: "rgba(0,0,0,0.5)",
-      }}
-    >
-      {/* ဒီမှာ id တစ်ခုခု ထည့်စရာလိုသလားမသိ။ id ဆိုတော့ unique ဖြစ်အောင်  */}
-      <Box
-        id={`warningBox`}
-        sx={{
-          bgcolor: "lightgray",
+  const handleClose = () => {
+    setShowWarningBox(false);
+  };
 
-          height: "100px",
-          padding: 2,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-start",
-          alignItems: "flex-end",
-        }}
-      >
-        <Typography variant="h6">
-          {users.length > 1
-            ? "Are you sure to delete these users?"
-            : "Are you sure to delete this user?"}
-        </Typography>
-        <Box
-          sx={{
-            mt: 2,
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
-          <Button
-            variant="contained"
-            onClick={() => {
-              setShowWarningBox(false);
-            }}
-          >
-            {" "}
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            color="error"
-            sx={{ ml: 1 }}
-            onClick={handleDeleteUser}
-          >
-            {" "}
-            Sure
-          </Button>
-        </Box>
-      </Box>
-    </Box>
+  const handleConfirm = () => {
+    onConfirm();
+    setShowWarningBox(false);
+  };
+
+  return (
+    <Dialog
+      open={showWarningBox}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={handleClose}
+      aria-describedby="alert-dialog-slide-description"
+    >
+      <DialogTitle>{title}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-slide-description">
+          {description}
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <CancelButton onClick={handleClose} />
+        <ConfirmButton onClick={handleConfirm} />
+      </DialogActions>
+    </Dialog>
   );
 }

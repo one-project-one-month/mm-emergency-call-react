@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import {
   Box,
@@ -7,19 +6,18 @@ import {
   Divider,
   FormControl,
   InputAdornment,
-  Link,
   MenuItem,
   Select,
   SelectChangeEvent,
   TextField,
   Typography,
 } from "@mui/material";
+import Link from "next/link";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { UserType } from "@/types/users";
-import { nanoid } from "@reduxjs/toolkit";
+import { User, UserType } from "@/types/users";
 import { useAppDispatch } from "@/lib/hooks";
 import { addUser } from "@/lib/apps/user/userSlice";
 import { redirect } from "next/navigation";
@@ -72,7 +70,6 @@ const AddingUser = () => {
           mb: "15px",
         }}
       />
-      {/* Name */}
       <Box sx={{ width: "100%" }}>
         <Typography variant="h6">Name</Typography>
 
@@ -83,7 +80,7 @@ const AddingUser = () => {
               borderRight: "none",
               "& .MuiOutlinedInput-root": {
                 borderRight: "none",
-                borderRadius: "4px 0 0 4px", // Only round the left corners
+                borderRadius: "4px 0 0 4px",
               },
             }}
             slotProps={{
@@ -104,14 +101,13 @@ const AddingUser = () => {
               width: "95%",
               "& .MuiOutlinedInput-root": {
                 borderLeft: "none",
-                borderRadius: "0 4px 4px 0", // Only round the right corners
+                borderRadius: "0 4px 4px 0",
               },
             }}
           />
         </Box>
       </Box>
 
-      {/* Email */}
       <Box sx={{ width: "100%" }}>
         <Typography variant="h6">Email</Typography>
 
@@ -122,7 +118,7 @@ const AddingUser = () => {
               borderRight: "none",
               "& .MuiOutlinedInput-root": {
                 borderRight: "none",
-                borderRadius: "4px 0 0 4px", // Only round the left corners
+                borderRadius: "4px 0 0 4px",
               },
             }}
             slotProps={{
@@ -143,14 +139,13 @@ const AddingUser = () => {
               width: "95%",
               "& .MuiOutlinedInput-root": {
                 borderLeft: "none",
-                borderRadius: "0 4px 4px 0", // Only round the right corners
+                borderRadius: "0 4px 4px 0",
               },
             }}
           />
         </Box>
       </Box>
 
-      {/* Address */}
       <Box sx={{ width: "100%" }}>
         <Typography variant="h6">Address</Typography>
 
@@ -161,7 +156,7 @@ const AddingUser = () => {
               borderRight: "none",
               "& .MuiOutlinedInput-root": {
                 borderRight: "none",
-                borderRadius: "4px 0 0 4px", // Only round the left corners
+                borderRadius: "4px 0 0 4px", 
               },
             }}
             slotProps={{
@@ -182,14 +177,12 @@ const AddingUser = () => {
               width: "95%",
               "& .MuiOutlinedInput-root": {
                 borderLeft: "none",
-                borderRadius: "0 4px 4px 0", // Only round the right corners
+                borderRadius: "0 4px 4px 0",
               },
             }}
           />
         </Box>
       </Box>
-      {/* Role */}
-
       <Box sx={{ minWidth: 120 }}>
         <Typography variant="h6">Role</Typography>
 
@@ -200,7 +193,7 @@ const AddingUser = () => {
               borderRight: "none",
               "& .MuiOutlinedInput-root": {
                 borderRight: "none",
-                borderRadius: "4px 0 0 4px", // Only round the left corners
+                borderRadius: "4px 0 0 4px",
               },
             }}
             slotProps={{
@@ -219,7 +212,7 @@ const AddingUser = () => {
               width: "95%",
               "& .MuiOutlinedInput-root": {
                 borderLeft: "none",
-                borderRadius: "0 4px 4px 0", // Only round the right corners
+                borderRadius: "0 4px 4px 0",
               },
             }}
           >

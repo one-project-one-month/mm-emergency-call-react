@@ -9,7 +9,7 @@ export default function StateOrRegionDataTableRow({ index }: Props) {
       <TableCell>{index}.</TableCell>
       <TableCell>စမ်းချောင်း</TableCell>
       <TableCell>အရှေ့ပိုင်း</TableCell>
-      <TableCell>၇</TableCell>
+      <TableCell sx={{}}>၇</TableCell>
       <TableCell>A,B,C,D</TableCell>
     </TableRow>
   );

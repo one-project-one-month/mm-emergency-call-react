@@ -91,11 +91,10 @@ const statesAndRegions = [
     href: `/setup/states-and-regions/${StatesAndRegions.SHAN}`,
   },
 ];
+
 const page = () => {
   return (
     <Box>
-      <Typography>States and Regions</Typography>
-
       <Box
         sx={{
           display: "flex",
@@ -126,7 +125,6 @@ const page = () => {
                   perspective: "1000px",
                 }}
               >
-                {/* ပုံ */}
                 <Box
                   sx={{
                     width: "auto",
@@ -148,7 +146,6 @@ const page = () => {
                     objectFit="contain"
                   />
                 </Box>
-                {/* နာမည် */}
                 <Box
                   sx={{
                     position: "absolute",
@@ -159,7 +156,6 @@ const page = () => {
                     borderRadius: "7px",
                   }}
                 >
-                  {" "}
                   <Typography variant="h6">{stateOrRegion.name}</Typography>
                 </Box>
               </Box>

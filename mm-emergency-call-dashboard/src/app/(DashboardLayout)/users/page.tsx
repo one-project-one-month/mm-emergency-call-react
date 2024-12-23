@@ -1,22 +1,17 @@
 import UserTable from "@/app/components/UserComponents/UserTable";
 import {
     Box,
-    Button,
-    Link,
-    Typography,
 } from "@mui/material";
+import Link from "next/link";
 import AddIcon from "@mui/icons-material/Add";
 import UserTabs from "@/app/components/UserComponents/UserTabs";
 import SearchBarAndFilterIcon from "@/app/components/UserComponents/SearchBarAndTableIcon";
 import SelectedCountAndBinIcon from "@/app/components/UserComponents/SelectedCountAndBinIcon";
+import AddButton from "@/app/components/CustomizedButtons/AddButton";
 
 const UserPage = () => {
-
     return (
         <Box>
-            <Typography>User</Typography>
-
-            {/* Add User Button */}
             <Box
                 sx={{
                     mt: 4,
@@ -26,26 +21,16 @@ const UserPage = () => {
                     justifyContent: "flex-end",
                 }}
             >
-                {" "}
+                {/* Root cause for page refresh is here  */}
                 <Link href={"/users/create"}>
-                    <Button
-                        variant="contained"
-                        sx={{
-                            bgcolor: "#5D87FF",
-                            color: "white",
-                            ":hover": { bgcolor: "#396efe" },
-                        }}
-                    >
+                    <AddButton>
                         <AddIcon /> Add User
-                    </Button>
+                    </AddButton>
                 </Link>
             </Box>
-
             <Box>
                 <UserTabs />
             </Box>
-
-            {/* User Table Container*/}
             <Box
                 sx={{
                     width: "100%",
@@ -55,7 +40,8 @@ const UserPage = () => {
                     padding: 2.5,
                 }}
             >
-                <SelectedCountAndBinIcon />
+                {/* need to change the code structure */}
+                <SelectedCountAndBinIcon /> 
 
                 <SearchBarAndFilterIcon
                 />

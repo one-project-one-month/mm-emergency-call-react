@@ -1,17 +1,36 @@
 "use client";
 import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Checkbox,
+} from "@mui/material";
 import UserTableRow from "./UserTableRow";
 import { RootState } from "@/lib/store";
 import { selectAllUser } from "@/lib/apps/user/userSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+
+interface Column {
+  label: string;
+  width: string;
+  align?: "left" | "right" | "center" | "inherit" | "justify";
+}
+
+const columns: Column[] = [
+  { label: "", width: "1%" },
+  { label: "No", width: "1%" },
+  { label: "Name", width: "20%" },
+  { label: "Email Address", width: "25%", align: "left" },
+  { label: "Address", width: "25%", align: "left" },
+  { label: "Role", width: "20%", align: "left" },
+  { label: "Action", width: "8%", align: "left" },
+];
+
 const UserTable: React.FC = () => {
   const users = useAppSelector((state: RootState) => state.user.users);
   const isAllSelected = useAppSelector(
@@ -30,41 +49,35 @@ const UserTable: React.FC = () => {
     <TableContainer
       component={Paper}
       sx={{
-        /*         mt: selectedUsers.length ? 7 : 0,
-         */ borderTop: "1px solid rgba(224, 224, 224, 1)",
-        "& .MuiTableCell-root": {
-          fontSize: "14px", // chang fontsize of all rows
-        },
+        borderTop: "1px solid rgba(224, 224, 224, 1)",
+        "& .MuiTableCell-root": { fontSize: "14px" },
         "& thead .MuiTableCell-root": {
-          fontSize: "13.5px", // change fontsize of header
-          fontWeight: "bold", // change fontweight
+          fontSize: "13.5px",
+          fontWeight: "bold",
         },
       }}
     >
-      <Table aria-label="simple table">
+      <Table aria-label="user table">
         <TableHead>
           <TableRow>
-            <TableCell sx={{ width: "1%" }}>
-              {" "}
-              <Checkbox
-                checked={isAllSelected}
-                onChange={handleSelectAllChange}
-              />
-            </TableCell>
-            <TableCell sx={{ width: "1%" }}>No</TableCell>
-            <TableCell sx={{ width: "20%" }}>Name</TableCell>
-            <TableCell align="left" sx={{ width: "25%" }}>
-              Email Adress
-            </TableCell>
-            <TableCell align="left" sx={{ width: "25%" }}>
-              Adress
-            </TableCell>
-            <TableCell align="left" sx={{ width: "20%" }}>
-              Role
-            </TableCell>
-            <TableCell align="left" sx={{ width: "8%" }}>
-              Action
-            </TableCell>
+            {columns.map((col, idx) =>
+              idx === 0 ? (
+                <TableCell key={idx} sx={{ width: col.width }}>
+                  <Checkbox
+                    checked={isAllSelected}
+                    onChange={handleSelectAllChange}
+                  />
+                </TableCell>
+              ) : (
+                <TableCell
+                  key={idx}
+                  align={col.align || "center"}
+                  sx={{ width: col.width }}
+                >
+                  {col.label}
+                </TableCell>
+              )
+            )}
           </TableRow>
         </TableHead>
         <TableBody>

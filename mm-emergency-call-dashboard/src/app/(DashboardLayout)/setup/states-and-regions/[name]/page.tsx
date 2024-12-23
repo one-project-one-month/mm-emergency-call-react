@@ -20,16 +20,13 @@ export default function StateOrRegionPage({ params }: Props) {
           flexDirection: "column",
         }}
       >
-        {" "}
-        <Typography>States and Regions/{name}</Typography>
+      
         <Link href={`/setup/states-and-regions`} style={{ marginTop: "10px" }}>
-          <IconButton sx={{ padding: 0, margin: 0 }}>
-            <Button variant="contained">
-              <ArrowBackIcon />
-              Back
-            </Button>
-          </IconButton>
+          <Button variant="contained" startIcon={<ArrowBackIcon />}>
+            Back
+          </Button>
         </Link>
+        <Typography sx={{marginTop: "1rem", fontWeight: 600}}>States and Regions/{name}</Typography>
       </Box>
 
       <Box sx={{ mt: 5, width: "100%", height: "100%" }}>
