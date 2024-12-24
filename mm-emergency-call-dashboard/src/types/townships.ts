@@ -18,4 +18,5 @@ export interface EmergencyRequest {
   incidentLocation: string;
   township: string;
   status: string;
+  stateRegion: StatesAndRegions;
 }

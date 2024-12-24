@@ -19,6 +19,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { StatesAndRegions } from "@/types/states-and-regions";
 import DropDown from "@/app/components/DropDowns/DropDown";
 import { AreaStatus, EmergencyRequest, Township } from "@/types/townships";
+import EmergencyReqTable from "@/app/components/TownshipComponents/EmergencyReqTable";
 
 const TownshipPage = () => {
   const [currentStateRegion, setCurrentStateRegion] =
@@ -37,7 +38,8 @@ const TownshipPage = () => {
 
     if (currentTownship === "Pending") {
       const currentEmergencyReqs = emergencyRequests.filter(
-        (emReq) => emReq.status === "Pending"
+        (emReq) =>
+          emReq.status === "Pending" && emReq.stateRegion === currentStateRegion
       );
       setCurrentEmergencyReqs(currentEmergencyReqs);
     } else {
@@ -116,6 +118,7 @@ const TownshipPage = () => {
       incidentLocation: "Ma sin sar naing tot bu",
       township: "Hlaing",
       status: "Pending",
+      stateRegion: StatesAndRegions.YANGON,
     },
     {
       id: 2,
@@ -124,6 +127,7 @@ const TownshipPage = () => {
       incidentLocation: "Ma sin sar naing tot bu",
       township: "Hlaing",
       status: "Pending",
+      stateRegion: StatesAndRegions.YANGON,
     },
     {
       id: 3,
@@ -132,6 +136,7 @@ const TownshipPage = () => {
       incidentLocation: "Ma sin sar naing tot bu",
       township: "Sanchaung",
       status: "Pending",
+      stateRegion: StatesAndRegions.YANGON,
     },
     {
       id: 4,
@@ -140,6 +145,7 @@ const TownshipPage = () => {
       incidentLocation: "Ma sin sar naing tot bu",
       township: "Sanchaung",
       status: "ongoing",
+      stateRegion: StatesAndRegions.YANGON,
     },
     {
       id: 5,
@@ -148,6 +154,7 @@ const TownshipPage = () => {
       incidentLocation: "Ma sin sar naing tot bu",
       township: "Aungmyethazan",
       status: "Pending",
+      stateRegion: StatesAndRegions.MANDALAY,
     },
     {
       id: 6,
@@ -156,6 +163,7 @@ const TownshipPage = () => {
       incidentLocation: "Ma sin sar naing tot bu",
       township: "Aungmyethazan",
       status: "ongoing",
+      stateRegion: StatesAndRegions.MANDALAY,
     },
     {
       id: 7,
@@ -164,6 +172,7 @@ const TownshipPage = () => {
       incidentLocation: "Ma sin sar naing tot bu",
       township: "Maha Aungmye",
       status: "ongoing",
+      stateRegion: StatesAndRegions.MANDALAY,
     },
     {
       id: 8,
@@ -172,6 +181,7 @@ const TownshipPage = () => {
       incidentLocation: "Ma sin sar naing tot bu",
       township: "Maha Aungmye",
       status: "ongoing",
+      stateRegion: StatesAndRegions.MANDALAY,
     },
     {
       id: 9,
@@ -180,6 +190,7 @@ const TownshipPage = () => {
       incidentLocation: "Ma sin sar naing tot bu",
       township: "Magway",
       status: "Pending",
+      stateRegion: StatesAndRegions.MAGWAY,
     },
     {
       id: 10,
@@ -188,6 +199,7 @@ const TownshipPage = () => {
       incidentLocation: "Ma sin sar naing tot bu",
       township: "Magway",
       status: "ongoing",
+      stateRegion: StatesAndRegions.MAGWAY,
     },
   ];
 
@@ -220,70 +232,31 @@ const TownshipPage = () => {
       >
         <Box sx={{ width: "70%", padding: 1 }}>
           Emergency cases
-          <TableContainer
-            component={Paper}
-            sx={{
-              /*         mt: selectedUsers.length ? 7 : 0,
-               */ borderTop: "1px solid rgba(224, 224, 224, 1)",
-              "& .MuiTableCell-root": {
-                fontSize: "14px", // chang fontsize of all rows
-              },
-              "& thead .MuiTableCell-root": {
-                fontSize: "13.5px", // change fontsize of header
-                fontWeight: "bold", // change fontweight
-              },
-            }}
-          >
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell sx={{ width: "10%" }}>No</TableCell>
-                  <TableCell sx={{ width: "20%" }}>Emergency Name</TableCell>
-                  <TableCell align="left" sx={{ width: "30%" }}>
-                    Incident Location
-                  </TableCell>
-                  <TableCell align="left" sx={{ width: "20%" }}>
-                    Requested User
-                  </TableCell>
-
-                  <TableCell align="left" sx={{ width: "20%" }}>
-                    Status
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-
-              {currentEmergencyReqs.length ? (
-                <TableBody>
-                  {currentEmergencyReqs.map((emReq, index) => {
-                    return (
-                      <TableRow key={emReq.id}>
-                        {" "}
-                        <TableCell sx={{ width: "10%" }}>{index + 1}</TableCell>
-                        <TableCell sx={{ width: "30%" }}>
-                          {emReq.emergencyName}
-                        </TableCell>
-                        <TableCell align="left" sx={{ width: "30%" }}>
-                          {emReq.incidentLocation}
-                        </TableCell>
-                        <TableCell align="left" sx={{ width: "30%" }}>
-                          {emReq.userId}
-                        </TableCell>
-                        <TableCell align="left" sx={{ width: "30%" }}>
-                          {emReq.status}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}{" "}
-                </TableBody>
-              ) : (
-                <Typography sx={{ width: "100%" }}>
-                  There is no request yet
-                </Typography>
-              )}
-            </Table>
-          </TableContainer>
+          {currentEmergencyReqs.length ? (
+            <EmergencyReqTable currentEmergencyReqs={currentEmergencyReqs} />
+          ) : (
+            <Box
+              sx={{
+                width: "100%",
+                padding: 1.5,
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              {" "}
+              <Typography variant="h6">There is no request yet</Typography>
+            </Box>
+          )}
         </Box>
-        <Box sx={{ width: "30%", bgcolor: "lightgray" }}>
+        <Box
+          sx={{
+            width: "30%",
+            bgcolor: "lightgray",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           {" "}
           Emergency History
         </Box>
