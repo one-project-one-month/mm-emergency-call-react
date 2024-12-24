@@ -1,6 +1,4 @@
-import { EmergencyRequest } from "@/types/townships";
 import {
-  Box,
   Paper,
   Table,
   TableBody,
@@ -8,9 +6,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
 } from "@mui/material";
 import EmergencyReqTableRow from "./EmergencyReqTableRow";
+import { EmergencyRequest } from "@/types/emergencyReq";
 
 interface Props {
   currentEmergencyReqs: EmergencyRequest[];
@@ -50,8 +48,14 @@ export default function EmergencyReqTable({ currentEmergencyReqs }: Props) {
 
         <TableBody>
           {currentEmergencyReqs.map((emReq, index) => {
-            return <EmergencyReqTableRow emReq={emReq} index={index} />;
-          })}{" "}
+            return (
+              <EmergencyReqTableRow
+                key={emReq.id}
+                emReq={emReq}
+                index={index}
+              />
+            );
+          })}
         </TableBody>
       </Table>
     </TableContainer>

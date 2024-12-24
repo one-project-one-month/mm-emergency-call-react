@@ -10,13 +10,3 @@ export interface Township {
   name: string;
   stateRegionName: StatesAndRegions;
 }
-
-export interface EmergencyRequest {
-  id: number;
-  userId: number;
-  emergencyName: string;
-  incidentLocation: string;
-  township: string;
-  status: string;
-  stateRegion: StatesAndRegions;
-}

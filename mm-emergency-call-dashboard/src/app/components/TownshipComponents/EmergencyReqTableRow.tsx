@@ -1,4 +1,4 @@
-import { EmergencyRequest } from "@/types/townships";
+import { EmergencyRequest } from "@/types/emergencyReq";
 import { TableCell, TableRow } from "@mui/material";
 
 interface Props {
@@ -8,7 +8,6 @@ interface Props {
 export default function EmergencyReqTableRow({ emReq, index }: Props) {
   return (
     <TableRow key={emReq.id}>
-      {" "}
       <TableCell sx={{ width: "10%" }}>{index + 1}</TableCell>
       <TableCell sx={{ width: "30%" }}>{emReq.emergencyName}</TableCell>
       <TableCell align="left" sx={{ width: "30%" }}>
