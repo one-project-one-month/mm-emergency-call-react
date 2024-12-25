@@ -4,8 +4,9 @@ import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 import CustomizerReducer from "./customizer/CustomizerSlice";
-import UserReducer from './apps/user/userSlice'
-import AdminReducer from './apps/admin/adminSlice'
+import UserReducer from "./apps/user/userSlice";
+import AdminReducer from "./apps/admin/adminSlice";
+import TownshipReducer from "./apps/townships/townshipslice";
 
 const persistConfig = {
   key: "root",
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   user: UserReducer,
   admin: AdminReducer,
   customizer: CustomizerReducer,
+  township: TownshipReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

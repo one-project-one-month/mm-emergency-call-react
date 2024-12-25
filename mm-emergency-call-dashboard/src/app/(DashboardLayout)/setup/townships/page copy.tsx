@@ -9,37 +9,22 @@ import { AreaStatus, Township } from "@/types/townships";
 import EmergencyReqTable from "@/app/components/TownshipComponents/EmergencyReqTable";
 import { Status } from "@/types/status";
 import { EmergencyRequest } from "@/types/emergencyReq";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import {
-  setCurrentEmergencyReqs,
-  setCurrentStateRegion,
-  setCurrentStatus,
-  setCurrentTownship,
-  setTownShipsBySAndR,
-} from "@/lib/apps/townships/townshipslice";
 
 const TownshipPage = () => {
-  const dispatch = useAppDispatch();
-
-  const currentStateRegion = useAppSelector(
-    (state) => state.township.currentStateRegion
-  );
-  const townShipsBySAndR = useAppSelector(
-    (state) => state.township.townShipsBySAndR
-  );
-  const currentTownship = useAppSelector(
-    (state) => state.township.currentTownship
-  );
-  const currentStatus = useAppSelector((state) => state.township.currentStatus);
-  const currentEmergencyReqs = useAppSelector(
-    (state) => state.township.currentEmergencyReqs
-  );
+  const [currentStateRegion, setCurrentStateRegion] =
+    React.useState<StatesAndRegions>(StatesAndRegions.YANGON);
+  const [townShipsBySAndR, setTownShipsBySAndR] = useState<Township[]>([]);
+  const [currentTownship, setCurrentTownship] = useState<string>("All");
+  const [currentStatus, setCurrentStatus] = useState<Status>(Status.PENDING);
+  const [currentEmergencyReqs, setCurrentEmergencyReqs] = useState<
+    EmergencyRequest[]
+  >([]);
 
   useEffect(() => {
     const townShipsBySAndR = townships.filter(
       (township) => township.stateRegionName === currentStateRegion
     );
-    dispatch(setTownShipsBySAndR(townShipsBySAndR));
+    setTownShipsBySAndR(townShipsBySAndR);
 
     if (currentTownship === "All") {
       const currentEmergencyReqs = emergencyRequests.filter(
@@ -47,25 +32,25 @@ const TownshipPage = () => {
           emReq.status === currentStatus &&
           emReq.stateRegion === currentStateRegion
       );
-      dispatch(setCurrentEmergencyReqs(currentEmergencyReqs));
+      setCurrentEmergencyReqs(currentEmergencyReqs);
     } else {
       const currentEmergencyReqs = emergencyRequests.filter(
         (emReq) =>
           emReq.township === currentTownship && emReq.status === currentStatus
       );
-      dispatch(setCurrentEmergencyReqs(currentEmergencyReqs));
+      setCurrentEmergencyReqs(currentEmergencyReqs);
     }
   }, [currentStateRegion, currentTownship, currentStatus]);
 
   const handleChangeStateRegion = (event: SelectChangeEvent) => {
-    dispatch(setCurrentStateRegion(event.target.value as StatesAndRegions));
-    dispatch(setCurrentTownship("All"));
+    setCurrentStateRegion(event.target.value as StatesAndRegions);
+    setCurrentTownship("All");
   };
   const handleChangeTownship = (event: SelectChangeEvent) => {
-    dispatch(setCurrentTownship(event.target.value));
+    setCurrentTownship(event.target.value);
   };
   const handleChangeStatus = (event: SelectChangeEvent) => {
-    dispatch(setCurrentStatus(event.target.value as Status));
+    setCurrentStatus(event.target.value as Status);
   };
 
   const areaStatuses: AreaStatus[] = [
